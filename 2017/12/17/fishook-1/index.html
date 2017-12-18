@@ -23,6 +23,8 @@
     
     
     
+        <link rel="dns-prefetch" href="https://hm.baidu.com"/>
+    
     
     
     
@@ -108,7 +110,7 @@
             "@type": "ImageObject",
             "url": "/img/favicon.png"
         },
-        "description": "Hi, nice to meet you"
+        "description": "I write many code to write less code. 💻"
     },
     "headline": "巧用符号表 - 探求 fishhook 原理（一）",
     "url": "http://m.desgard.com/2017/12/17/fishook-1/index.html",
@@ -283,7 +285,14 @@
     <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
 
     <!-- Analytics -->
-    
+    <script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?c5a8123bc51782a3083a631ed9ff50e4';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(hm, s);
+    })();
+</script>
 
     <!-- Custom Head -->
     
@@ -450,20 +459,8 @@
 
     <!-- Share Facebook -->
     
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://m.desgard.com/2017/12/17/fishook-1/index.html" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 Facebook
-            </li>
-        </a>
-    
 
     <!-- Share Google+ -->
-    
-        <a class="post_share-link" href="https://plus.google.com/share?url=http://m.desgard.com/2017/12/17/fishook-1/index.html" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 Google+
-            </li>
-        </a>
     
 
     <!-- Share LinkedIn -->
@@ -982,7 +979,7 @@ jmp        qword <span class="token punctuation">[</span>_printf_ptr<span class=
 
     <!-- Sidebar Email -->
     <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
-        youremail@email.com
+        gua@desgard.com
         <b class="caret"></b>
     </a>
 </div>
@@ -995,7 +992,7 @@ jmp        qword <span class="token punctuation">[</span>_printf_ptr<span class=
         <ul id="settings-dropdown" class="dropdown-menu">
             
                 <li>
-                    <a href="#" target="_blank" title="Email Me">
+                    <a href="mailto:gua@desgard.com" target="_blank" title="Email Me">
                         
                             <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
                         
@@ -1039,6 +1036,21 @@ jmp        qword <span class="token punctuation">[</span>_printf_ptr<span class=
 
     <!-- Categories  -->
     
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/Source-Probe/">Source Probe<span class="sidebar_archives-count">1</span></a>
+            </ul>
+        </li>
+        
+    
 
     <!-- Pages  -->
     
@@ -1065,14 +1077,14 @@ It will not impact the appearance and can give developers a lot of support :)
 
 
 <!-- Theme Material -->
-
+<!-- 
     <a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
         <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
             主题 - Material
             <span class="sidebar-badge badge-circle">i</span>
         </div>
     </a>
-
+ -->
 
 <!-- Help & Support -->
 <!--

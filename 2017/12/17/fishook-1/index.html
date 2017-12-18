@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.4.0 -->
+    <script>window.materialVersion = "1.4.0"</script>
+
+    <!-- Title -->
+    
+    <title>
+        
+            巧用符号表 - 探求 fishhook 原理（一） | 
+        
+        Guardia · 瓜地
+    </title>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="Desgard_Duan">
+    <meta name="description" itemprop="description" content="">
+    <meta name="keywords" content=",C,fishhook">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+
+    <!--iOS -->
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Guardia · 瓜地">
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://m.desgard.com">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="巧用符号表 - 探求 fishhook 原理（一） | Guardia · 瓜地">
+    <meta property="og:image" content="/img/favicon.png" />
+    <meta property="og:description" content="">
+    <meta property="og:article:tag" content="C"> <meta property="og:article:tag" content="fishhook"> 
+
+    
+        <meta property="article:published_time" content="12月 17, 2017" />
+        <meta property="article:modified_time" content="12月 18, 2017" />
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:title" content="巧用符号表 - 探求 fishhook 原理（一） | Guardia · 瓜地">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:image" content="/img/favicon.png">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="http://m.desgard.com" />
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="http://m.desgard.com/2017/12/17/fishook-1/index.html" />
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Guardia · 瓜地",
+        "logo": "/img/favicon.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Desgard_Duan",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/favicon.png"
+        },
+        "description": "Hi, nice to meet you"
+    },
+    "headline": "巧用符号表 - 探求 fishhook 原理（一）",
+    "url": "http://m.desgard.com/2017/12/17/fishook-1/index.html",
+    "datePublished": "12月 17, 2017",
+    "dateModified": "12月 18, 2017",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://m.desgard.com"
+    }
+}
+</script>
+
+
+    
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(key){try{localStorage.removeItem(key)}catch(e){}};lsloader.setLS=function(key,val){try{localStorage.setItem(key,val)}catch(e){}};lsloader.getLS=function(key){var val="";try{val=localStorage.getItem(key)}catch(e){val=""}return val};versionString="/*"+materialVersion+"*/";lsloader.clean=function(){try{var keys=[];for(var i=0;i<localStorage.length;i++){keys.push(localStorage.key(i))}keys.forEach(function(key){var data=lsloader.getLS(key);if(data&&data.indexOf(versionString)===-1){lsloader.removeLS(key)}})}catch(e){}};lsloader.clean();lsloader.load=function(jsname,jspath,cssonload){cssonload=cssonload||function(){};var code;code=this.getLS(jsname);if(code&&code.indexOf(versionString)===-1){this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}if(code){var versionNumber=code.split(versionString)[0];if(versionNumber!=jspath){console.log("reload:"+jspath);this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}code=code.split(versionString)[1];if(/\.js?.+$/.test(versionNumber)){this.jsRunSequence.push({name:jsname,code:code});this.runjs(jspath,jsname,code)}else{document.getElementById(jsname).appendChild(document.createTextNode(code));cssonload()}}else{this.requestResource(jsname,jspath,cssonload)}};lsloader.requestResource=function(name,path,cssonload){var that=this;if(/\.js?.+$/.test(path)){this.iojs(path,name,function(path,name,code){that.setLS(name,path+versionString+code);that.runjs(path,name,code)})}else if(/\.css?.+$/.test(path)){this.iocss(path,name,function(code){document.getElementById(name).appendChild(document.createTextNode(code));that.setLS(name,path+versionString+code)},cssonload)}};lsloader.iojs=function(path,jsname,callback){var that=this;that.jsRunSequence.push({name:jsname,code:""});try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(path,jsname,xhr.response);return}}that.jsfallback(path,jsname)}};xhr.send(null)}catch(e){that.jsfallback(path,jsname)}};lsloader.iocss=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.iofonts=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.runjs=function(path,name,code){if(!!name&&!!code){for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code=code}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var script=document.createElement("script");script.appendChild(document.createTextNode(this.jsRunSequence[0].code));script.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(script);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var that=this;var script=document.createElement("script");script.src=this.jsRunSequence[0].path;script.type="text/javascript";this.jsRunSequence[0].status="loading";script.onload=function(){that.jsRunSequence.shift();if(that.jsRunSequence.length>0){that.runjs()}};document.body.appendChild(script)}};lsloader.tagLoad=function(path,name){this.jsRunSequence.push({name:name,code:"",path:path,status:"failed"});this.runjs()};lsloader.jsfallback=function(path,name){if(!!this.jsnamemap[name]){return}else{this.jsnamemap[name]=name}for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code="";this.jsRunSequence[k].status="failed";this.jsRunSequence[k].path=path}}this.runjs()};lsloader.cssfallback=function(path,name,cssonload){if(!!this.cssnamemap[name]){return}else{this.cssnamemap[name]=1}var link=document.createElement("link");link.type="text/css";link.href=path;link.rel="stylesheet";link.onload=link.onerror=cssonload;var root=document.getElementsByTagName("script")[0];root.parentNode.insertBefore(link,root)};lsloader.runInlineScript=function(scriptId,codeId){var code=document.getElementById(codeId).innerText;this.jsRunSequence.push({name:scriptId,code:code});this.runjs()};lsloader.loadCombo=function(jslist){var updateList="";var requestingModules={};for(var k in jslist){var LS=this.getLS(jslist[k].name);if(!!LS){var version=LS.split(versionString)[0];var code=LS.split(versionString)[1]}else{var version=""}if(version==jslist[k].path){this.jsRunSequence.push({name:jslist[k].name,code:code,path:jslist[k].path})}else{this.jsRunSequence.push({name:jslist[k].name,code:null,path:jslist[k].path,status:"comboloading"});requestingModules[jslist[k].name]=true;updateList+=(updateList==""?"":";")+jslist[k].path}}var that=this;if(!!updateList){var xhr=new XMLHttpRequest;xhr.open("get",combo+updateList,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){that.runCombo(xhr.response,requestingModules);return}}else{for(var i in that.jsRunSequence){if(requestingModules[that.jsRunSequence[i].name]){that.jsRunSequence[i].status="failed"}}that.runjs()}}};xhr.send(null)}this.runjs()};lsloader.runCombo=function(comboCode,requestingModules){comboCode=comboCode.split("/*combojs*/");comboCode.shift();for(var k in this.jsRunSequence){if(!!requestingModules[this.jsRunSequence[k].name]&&!!comboCode[0]){this.jsRunSequence[k].status="comboJS";this.jsRunSequence[k].code=comboCode[0];this.setLS(this.jsRunSequence[k].name,this.jsRunSequence[k].path+versionString+comboCode[0]);comboCode.shift()}}this.runjs()}})();</script>
+
+    <!-- Import CSS & jQuery -->
+    
+        <style id="css/material.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/material.min.css","/css/material.min.css?fJTiM/K1J3dWIruo3pxtAw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        <style id="css/style.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/style.min.css","/css/style.min.css?oCSEO3ST+aEypEwttTDI9g==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        
+        
+            <style>
+    
+    .footer-sns-facebook {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgY2xhc3M9Imljb24iIHZpZXdCb3g9IjAgMCAxMDI0IDEwMjQiPjxwYXRoIGQ9Ik0xMzguNiA3OGMtMjIuNCA1LjItNTUuOCA0MC4yLTYwLjYgNjMuNC0xLjQgNi40LTIgMTI5LjgtMS42IDM2Ny42LjYgMjk4LjYgMSAzNTguOCAzLjQgMzYzIDExIDIwLjIgMjEuNiAzMi40IDM3LjIgNDMgMTUgMTAuMiAxNy40IDExLjIgMzMgMTMgMTEuMiAxLjQgMTM2IDIgMzY1IDEuNiAzMTQtLjYgMzQ4LjYtMSAzNTUtMy44IDE1LjgtNy4yIDMzLjgtMjIgNDMuMi0zNS40IDUuMi03LjQgMTAuOC0xNi42IDEyLjYtMjAuNCAyLjgtNi40IDMuMi00MC44IDMuOC0zNTQgLjQtMjIzLS4yLTM1My40LTEuNC0zNjUtMi0xNy0yLjYtMTguNi0xMy0zNC04LjYtMTIuNi0xNC4yLTE4LjQtMjUuMi0yNS44LTcuOC01LjQtMTcuNC0xMS0yMS42LTEyLjQtNi0yLjItNzIuOC0yLjYtMzY1LjQtMi42LTE5Ni44LjItMzYxIC44LTM2NC40IDEuOHptNjU3LjYgODcuOGw0LjggMy44djU1LjJjMCA1NC42IDAgNTUuMi00LjYgNTkuNi00LjQgNC40LTYgNC42LTUwLjIgNS42bC00NS42IDEtNy4yIDUuNmMtMTAuNCA4LTE2LjggMTcuMi0xOS4yIDI3LjQtMSA1LTEuOCAyNC44LTEuOCA0NCAuMiAzOCAxLjYgNDQuNiAxMC44IDQ4IDIuOCAxLjIgMjguNCAyIDU2LjggMiA0Ny44IDAgNTIgLjIgNTYuMiAzLjhsNC44IDMuOHY1NS4yYzAgNTQuNiAwIDU1LjItNC42IDU5LjYtNC40IDQuNi01LjQgNC42LTU3IDUuMi0yOC44LjItNTQuNC44LTU2LjggMS40LTIuNC42LTUuNiAzLTYuOCA1LjQtMS44IDMuMi0yLjQgNDEuNC0yLjYgMTQzLjJsLS4yIDEzOC44LTUuNiA0LjgtNS42IDQuOEg2MDljLTUyLjQgMC01Mi44IDAtNTguMi00LjZsLTUuNC00LjYtLjItMTQwLjYtLjItMTQwLjYtNC44LTMuOGMtNC4yLTMuNC04LTMuOC0zNS42LTMuOC0zMi44IDAtNDEtMS44LTQzLjYtMTAtLjYtMi4yLTEuMi0yNS40LTEuMi01MS40IDAtNjAuOC0uMi01NyAzLjQtNjEuNiAyLjgtMy42IDYtNCAzNy44LTUgMzMtMSAzNS4yLTEuMiAzOS40LTUuNiA0LjYtNC40IDQuNi01LjIgNS44LTcxIDEuMi03My40LjItNjcuMiAxNi42LTk5LjQgOC0xNS44IDEyLjgtMjIgMjgtMzcgMTUuMi0xNS4yIDIxLjQtMTkuNiAzOC4yLTI4IDExLTUuNCAyNC0xMSAyOS0xMi4yIDYuMi0xLjggMjguNi0yLjYgNzEuMi0yLjYgNTguNi0uMiA2Mi42IDAgNjcgMy42eiIvPjwvc3ZnPg==);
+    }
+    
+    
+    .footer-sns-twitter {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgY2xhc3M9Imljb24iIHZpZXdCb3g9IjAgMCAxMDI0IDEwMjQiPjxwYXRoIGQ9Ik0xMzguNiA3OGMtMjIuNCA1LjItNTUuOCA0MC4yLTYwLjYgNjMuNC0xLjQgNi40LTIgMTI5LjgtMS42IDM2Ny42LjYgMjk4LjYgMSAzNTguOCAzLjQgMzYzIDExIDIwLjIgMjEuNiAzMi40IDM3LjIgNDMgMTUgMTAuMiAxNy40IDExLjIgMzMgMTMgMTEuMiAxLjQgMTM2IDIgMzY1IDEuNiAzMTQtLjYgMzQ4LjYtMSAzNTUtMy44IDE1LjgtNy4yIDMzLjgtMjIgNDMuMi0zNS40IDUuMi03LjQgMTAuOC0xNi42IDEyLjYtMjAuNCAyLjgtNi40IDMuMi00MC44IDMuOC0zNTQgLjQtMjIzLS4yLTM1My40LTEuNC0zNjUtMi0xNy0yLjYtMTguNi0xMy0zNC04LjYtMTIuNi0xNC4yLTE4LjQtMjUuMi0yNS44LTcuOC01LjQtMTcuNC0xMS0yMS42LTEyLjQtNi0yLjItNzIuOC0yLjYtMzY1LjQtMi42LTE5Ni44LjItMzYxIC44LTM2NC40IDEuOHptNTMyLjggMjA1YzEwIDQgMjMgMTAuOCAyOC44IDE1LjIgMTIuNiA5LjIgMTYuNiAxMC42IDI5LjQgOS40IDYuNi0uNiAxMy0zLjIgMjAuNC04LjIgMTEuMi03LjYgMTkuNC05LjIgMjMuNi01IDMuNiAzLjYgMi44IDktMi44IDE4LjYtNy4yIDEyLjQtNiAxOC44IDQuMiAyNC4yIDQuNCAyLjIgOC4yIDUuNiA4LjYgNy40IDEgNC44LTEyLjYgMjQuMi0yMiAzMS44LTExLjggOS4yLTE3LjIgMjIuNi0xOS42IDQ3LjgtNC44IDUwLjQtNy44IDY2LjYtMTYuNCA4NS40LTMgNy03IDE3LjgtOC44IDI0LTEuOCA2LjQtNSAxNC42LTcuNCAxOC40LTIuMiAzLjgtNy40IDEzLTExLjQgMjAuNC0xNy4yIDMwLjgtNDMuNCA2MS40LTcxLjQgODMuOC0yNS42IDIwLjQtNDYgMzMuMi02NC4yIDQwLjItOC40IDMuMi0xOCA3LjYtMjEuNCA5LjYtNy40IDQuNi0yMi40IDguNi01Ny4yIDE1LTYyLjIgMTEuNi03OS4yIDExLjQtMTM1LjYtMS0zMi40LTctMzguNi05LTUyLTE2LjgtMjEuNC0xMi42LTI0LjItMTQuOC0yNC4yLTE5LjQgMC02LjIgMTAuMi05LjIgMzUtMTAuNCAyMi40LTEgMjguNi0yLjYgNTctMTQuMiAyMy44LTkuOCAyOS40LTEyLjggMzAuNC0xNi44IDIuMi04LjItMy0xMy4yLTI2LjgtMjUuNC0yNS44LTEzLjItMzIuMi0xOC40LTQzLjgtMzUuOC05LTEzLjYtMTAtMjEuMi0zLjYtMzMuNiA1LjQtMTAuOCAzLjYtMTUtMTEuOC0yNS40LTktNi0xNC0xMS42LTIwLjgtMjIuNi0yMy40LTM3LjgtMjUtNTAuOC03LjItNTkuOCA0LjgtMi40IDkuNC01LjQgMTAuMi02LjYgMi44LTQuMi0uNC0xNS42LTguNC0yOS0xMS42LTE5LjYtMTMuMi0yNS44LTEzLjItNTUuMiAwLTI4LjggMi42LTM3LjggMTItNDAuMiA5LTIuMiAxNC44IDEgMzUuNiAyMC4yIDI0LjggMjIuOCA0My42IDM2LjYgNjIuOCA0NS44IDggMy44IDE3LjggOS4yIDIyIDEyIDQuMiAyLjggMTQuOCA3IDIzLjQgOS4yIDguNiAyLjIgMjQuMiA2LjggMzQuOCAxMC4yIDEzLjQgNC40IDIzLjYgNi40IDMzIDYuNiAxMi44LjIgMTQuMi0uMiAxOC42LTUuNCA0LTQuOCA0LjgtNy44IDQuOC0xOS4yIDAtMTQuNCA1LjYtMzkuNiAxMS4yLTUwLjYgNC4yLTguNCAyOS4yLTM0LjIgMzkuOC00MS40IDcuOC01LjQgMzUuNi0xNiA1Mi0yMCAxNC4yLTMuNiAzMi42LTEuMiA1Mi40IDYuOHoiLz48L3N2Zz4=);
+    }
+    
+    
+    .footer-sns-gplus {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgY2xhc3M9Imljb24iIHZpZXdCb3g9IjAgMCAxMDI0IDEwMjQiPjxwYXRoIGQ9Ik0xMzguNiA3OGMtMjIuNCA1LjItNTUuOCA0MC4yLTYwLjYgNjMuNC0xLjQgNi40LTIgMTI5LjgtMS42IDM2Ny42LjYgMjk4LjYgMSAzNTguOCAzLjQgMzYzIDExIDIwLjIgMjEuNiAzMi40IDM3LjIgNDMgMTUgMTAuMiAxNy40IDExLjIgMzMgMTMgMTEuMiAxLjQgMTM2IDIgMzY1IDEuNiAzMTQtLjYgMzQ4LjYtMSAzNTUtMy44IDE1LjgtNy4yIDMzLjgtMjIgNDMuMi0zNS40IDUuMi03LjQgMTAuOC0xNi42IDEyLjYtMjAuNCAyLjgtNi40IDMuMi00MC44IDMuOC0zNTQgLjQtMjIzLS4yLTM1My40LTEuNC0zNjUtMi0xNy0yLjYtMTguNi0xMy0zNC04LjYtMTIuNi0xNC4yLTE4LjQtMjUuMi0yNS44LTcuOC01LjQtMTcuNC0xMS0yMS42LTEyLjQtNi0yLjItNzIuOC0yLjYtMzY1LjQtMi42LTE5Ni44LjItMzYxIC44LTM2NC40IDEuOHpNNDMwIDI5NS40YzQwLjYgMTUuNCA1Ni42IDIzLjggNzIuNiAzOC40IDYuOCA2LjIgNy4yIDE1LjIgMSAyMy40LTYuMiA4LTMzLjYgMzMuOC0zOSAzNi42LTUuNiAyLjgtMTcuNiAyLjgtMjMuMi0uMi0yLjQtMS4yLTguMi01LjItMTMtOC44LTExLjItOC42LTI0LjYtMTEuMi01NS4yLTExLjItMjcuNCAwLTQwLjYgMi42LTUyLjIgMTAuNC00LjQgMi44LTEyLjIgNy42LTE3LjIgMTAuNi0yMyAxMy4yLTUxLjQgNTUtNTUuOCA4Mi40LTIuNiAxNS42LTIuNCAzNC44LjIgNTEgMi44IDE3LjQgMTkuOCA0OC44IDM1LjIgNjUuMiAxNiAxNi42IDQ1IDMzLjYgNjIuOCAzNi42IDI2LjggNC40IDY1LjggMS42IDc5LjQtNS44IDIwLjYtMTEuNCAzMS0xOSA0MS0zMC40IDE4LjgtMjEuNiAyMy40LTM0LjIgMTUuNi00My44LTMuOC00LjgtNC40LTQuOC01MS01LjgtNjAuOC0xLjItNTYuMiAyLjItNTYuMi00My4yIDAtMzIuNC4yLTMzLjIgNC44LTM3IDQuNC0zLjYgOS0zLjggOTItMy44IDc5IDAgODcuOC40IDk0LjIgMy42IDExLjIgNS42IDEzIDExLjQgMTIuOCA0My40IDAgMjUuNC0uOCAzMC44LTcuNiA1OC00IDE2LjYtOS44IDM0LTEyLjYgMzktMi44IDUtOC4yIDE0LjItMTEuNiAyMC42LTguNCAxNS40LTI3LjIgMzYuOC00MC44IDQ2LjYtNS44IDQuNC0xMy44IDEwLjItMTcuNiAxMy4yLTMuOCAzLTExIDctMTYuMiA4LjgtNS4yIDEuOC0xNi4yIDYuNC0yNC40IDEwLTIyLjQgOS42LTM0LjggMTEuNi03MyAxMS42LTM3LjYuMi00Ny0xLjQtNzEtMTItOC4yLTMuNi0xNy42LTcuMi0yMC44LTgtMTUuOC0zLjgtNjctNDUuMi03Ny44LTYyLjgtMi4yLTMuOC03LjYtMTEuNi0xMS44LTE3LjItNC4yLTUuNC05LTE0LTEwLjYtMTktMS44LTQuOC02LjItMTYtMTAtMjQuOC0zLjYtOC44LTcuOC0yMi4yLTkuMi0yOS42LTMuMi0xOC44LTEuNC03OS40IDIuOC05MS40IDEzLjgtNDAuNiAzNS42LTc4IDU4LjgtMTAwLjIgMTQtMTMuNiA0Ny4yLTM2LjQgNTgtMzkuOCA0LjItMS40IDEzLjQtNS4yIDIwLjYtOC40IDIyLTEwIDMyLjgtMTEuNiA3Ni0xMSAzMy44LjYgNDAuNCAxLjIgNTAgNC44em0zNDAuOCA4MC44YzggMy42IDkuNiAxMS4yIDkuMiAzOS4yLS42IDM0LjQtLjYgMzQgNSAzOS42IDQuOCA1IDUuNCA1IDM3LjYgNSA0My40IDAgNDQuNC44IDQzLjIgMzYuMi0uOCAxNy0xLjIgMTguNC02LjQgMjMtNS40IDQuNi02LjYgNC44LTM3LjYgNC44LTMxLjIgMC0zMiAuMi0zNi44IDUtNS42IDUuNC01LjYgNC40LTUgNDEuMi40IDI2LjQuMiAyNy40LTQuNiAzMy00LjggNS42LTYgNS44LTI0LjQgNi40LTIwLjguOC0yOS42LTEuNC0zMy40LTguNC0xLjQtMi42LTItMTUuNi0xLjgtMzUuNi40LTMxLjIuNC0zMS42LTQuNi0zNi42cy01LjYtNS0zNi01Yy0xOC44IDAtMzMtLjgtMzYtMi4yLTcuNi0zLjYtOS42LTExLjItOC44LTMzLjguOC0yOC4yLjQtMjggNDEtMjggNDUuNCAwIDQ1LjQgMCA0NC42LTQyLjYtLjYtMzMtLjYtMzMgNS0zOC40IDQuNC00LjYgNi4yLTUgMjQuOC01IDExIDAgMjIuMiAxIDI1IDIuMnoiLz48L3N2Zz4=);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</style>
+
+        
+        <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+
+
+        <script>lsloader.load("js/jquery.min.js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==")</script>
+    
+    
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Analytics -->
+    
+
+    <!-- Custom Head -->
+    
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#关于符号表的基本知识"><span class="post-toc-number">1.</span> <span class="post-toc-text"><a href="#&#x5173;&#x4E8E;&#x7B26;&#x53F7;&#x8868;&#x7684;&#x57FA;&#x672C;&#x77E5;&#x8BC6;" class="headerlink" title="&#x5173;&#x4E8E;&#x7B26;&#x53F7;&#x8868;&#x7684;&#x57FA;&#x672C;&#x77E5;&#x8BC6;"></a>&#x5173;&#x4E8E;&#x7B26;&#x53F7;&#x8868;&#x7684;&#x57FA;&#x672C;&#x77E5;&#x8BC6;</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Lazy-Binding-过程"><span class="post-toc-number">1.1.</span> <span class="post-toc-text"><a href="#Lazy-Binding-&#x8FC7;&#x7A0B;" class="headerlink" title="Lazy Binding &#x8FC7;&#x7A0B;"></a>Lazy Binding &#x8FC7;&#x7A0B;</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Dynamic-Symbol-Table"><span class="post-toc-number">1.2.</span> <span class="post-toc-text"><a href="#Dynamic-Symbol-Table" class="headerlink" title="Dynamic Symbol Table"></a>Dynamic Symbol Table</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#理解-fishhook"><span class="post-toc-number">2.</span> <span class="post-toc-text"><a href="#&#x7406;&#x89E3;-fishhook" class="headerlink" title="&#x7406;&#x89E3; fishhook"></a>&#x7406;&#x89E3; fishhook</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#明确思路"><span class="post-toc-number">2.1.</span> <span class="post-toc-text"><a href="#&#x660E;&#x786E;&#x601D;&#x8DEF;" class="headerlink" title="&#x660E;&#x786E;&#x601D;&#x8DEF;"></a>&#x660E;&#x786E;&#x601D;&#x8DEF;</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#准备"><span class="post-toc-number">2.2.</span> <span class="post-toc-text"><a href="#&#x51C6;&#x5907;" class="headerlink" title="&#x51C6;&#x5907;"></a>&#x51C6;&#x5907;</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#调试代码"><span class="post-toc-number">2.3.</span> <span class="post-toc-text"><a href="#&#x8C03;&#x8BD5;&#x4EE3;&#x7801;" class="headerlink" title="&#x8C03;&#x8BD5;&#x4EE3;&#x7801;"></a>&#x8C03;&#x8BD5;&#x4EE3;&#x7801;</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#dyld-register-func-for-add-image-是什么？"><span class="post-toc-number">2.3.1.</span> <span class="post-toc-text"><a href="#dyld-register-func-for-add-image-&#x662F;&#x4EC0;&#x4E48;&#xFF1F;" class="headerlink" title="_dyld_register_func_for_add_image &#x662F;&#x4EC0;&#x4E48;&#xFF1F;"></a><code>_dyld_register_func_for_add_image</code> &#x662F;&#x4EC0;&#x4E48;&#xFF1F;</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#为什么传入的-rebind-symbols-for-image-作为回调函数呢？"><span class="post-toc-number">2.3.2.</span> <span class="post-toc-text"><a href="#&#x4E3A;&#x4EC0;&#x4E48;&#x4F20;&#x5165;&#x7684;-rebind-symbols-for-image-&#x4F5C;&#x4E3A;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x5462;&#xFF1F;" class="headerlink" title="&#x4E3A;&#x4EC0;&#x4E48;&#x4F20;&#x5165;&#x7684; _rebind_symbols_for_image &#x4F5C;&#x4E3A;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x5462;&#xFF1F;"></a>&#x4E3A;&#x4EC0;&#x4E48;&#x4F20;&#x5165;&#x7684; <code>_rebind_symbols_for_image</code> &#x4F5C;&#x4E3A;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x5462;&#xFF1F;</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#intptr-t-是什么类型？"><span class="post-toc-number">2.3.3.</span> <span class="post-toc-text"><a href="#intptr-t-&#x662F;&#x4EC0;&#x4E48;&#x7C7B;&#x578B;&#xFF1F;" class="headerlink" title="intptr_t &#x662F;&#x4EC0;&#x4E48;&#x7C7B;&#x578B;&#xFF1F;"></a><code>intptr_t</code> &#x662F;&#x4EC0;&#x4E48;&#x7C7B;&#x578B;&#xFF1F;</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#重绑定寻址-基址准备过程"><span class="post-toc-number">2.4.</span> <span class="post-toc-text"><a href="#&#x91CD;&#x7ED1;&#x5B9A;&#x5BFB;&#x5740;-&#x57FA;&#x5740;&#x51C6;&#x5907;&#x8FC7;&#x7A0B;" class="headerlink" title="&#x91CD;&#x7ED1;&#x5B9A;&#x5BFB;&#x5740; - &#x57FA;&#x5740;&#x51C6;&#x5907;&#x8FC7;&#x7A0B;"></a>&#x91CD;&#x7ED1;&#x5B9A;&#x5BFB;&#x5740; - &#x57FA;&#x5740;&#x51C6;&#x5907;&#x8FC7;&#x7A0B;</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-获取-Linkedit-Base-Addr"><span class="post-toc-number">2.4.1.</span> <span class="post-toc-text"><a href="#1-&#x83B7;&#x53D6;-Linkedit-Base-Addr" class="headerlink" title="1. &#x83B7;&#x53D6; Linkedit Base Addr"></a>1. &#x83B7;&#x53D6; Linkedit Base Addr</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-二次遍历-Load-Command-的目的"><span class="post-toc-number">2.4.2.</span> <span class="post-toc-text"><a href="#2-&#x4E8C;&#x6B21;&#x904D;&#x5386;-Load-Command-&#x7684;&#x76EE;&#x7684;" class="headerlink" title="2. &#x4E8C;&#x6B21;&#x904D;&#x5386; Load Command &#x7684;&#x76EE;&#x7684;"></a>2. &#x4E8C;&#x6B21;&#x904D;&#x5386; Load Command &#x7684;&#x76EE;&#x7684;</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#重绑定"><span class="post-toc-number">2.5.</span> <span class="post-toc-text"><a href="#&#x91CD;&#x7ED1;&#x5B9A;" class="headerlink" title="&#x91CD;&#x7ED1;&#x5B9A;"></a>&#x91CD;&#x7ED1;&#x5B9A;</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#小结"><span class="post-toc-number">3.</span> <span class="post-toc-text"><a href="#&#x5C0F;&#x7ED3;" class="headerlink" title="&#x5C0F;&#x7ED3;"></a>&#x5C0F;&#x7ED3;</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#引文"><span class="post-toc-number">4.</span> <span class="post-toc-text"><a href="#&#x5F15;&#x6587;" class="headerlink" title="&#x5F15;&#x6587;"></a>&#x5F15;&#x6587;</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#鸣谢"><span class="post-toc-number">5.</span> <span class="post-toc-text"><a href="#&#x9E23;&#x8C22;" class="headerlink" title="&#x9E23;&#x8C22;"></a>&#x9E23;&#x8C22;</span></a></li></ol>
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
+    
+
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
+
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').addClass('lazy');
+</script>
+
+        
+    
+            <p class="article-headline-p">
+                巧用符号表 - 探求 fishhook 原理（一）
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Desgard_Duan</strong>
+        <span>12月 17, 2017</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/C/">C</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/fishhook/">fishhook</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=巧用符号表 - 探求 fishhook 原理（一）&url=http://m.desgard.com/2017/12/17/fishook-1/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=巧用符号表 - 探求 fishhook 原理（一）&url=http://m.desgard.com/2017/12/17/fishook-1/index.html&via=Desgard_Duan" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://m.desgard.com/2017/12/17/fishook-1/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://m.desgard.com/2017/12/17/fishook-1/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <p>这是 <em>探求 fishhook 原理</em> 系列的第一篇。主要讲述了 Facebook 开源库 <a href="">fishhook</a> 的源码实现细节。需要具备 Mach-O 相关知识。可以先阅读 <em><a href="https://xiaozhuanlan.com/topic/6750382941" target="_blank" rel="noopener">Mach-O 文件格式探索</a></em> 一文。</p>
+<h2 id="关于符号表的基本知识"><a href="#关于符号表的基本知识" class="headerlink" title="关于符号表的基本知识"></a>关于符号表的基本知识</h2><h3 id="Lazy-Binding-过程"><a href="#Lazy-Binding-过程" class="headerlink" title="Lazy Binding 过程"></a>Lazy Binding 过程</h3><p>在之前的<a href="https://xiaozhuanlan.com/topic/6750382941" target="_blank" rel="noopener">Mach-O 文件格式探索</a>一文中提及到了 <code>__DATA.__la_symbol_ptr</code> 和 <code>__DATA.__nl_symbol_ptr</code> 这两个指针表，分别为<strong>lazy binding指针表</strong>和<strong>non lazy binding指针表</strong>。并且这两个指针表，保存着与字符串标对应的函数指针。</p>
+<p>而 Mach-O 文件文件中通过 dyld 加载的 Lazy Binding 表并没有在加载过程中直接确定地址列表，而是在第一次调用该函数的时候，通过 <strong>PLT(Procedure Linkage Table)</strong> 来进行一次 Lazy Binding。来使用 <code>printf</code> 方法验证一下：</p>
+<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%s\n"</span><span class="token punctuation">,</span> <span class="token string">"hello world"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%s\n"</span><span class="token punctuation">,</span> <span class="token string">"hello desgard"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>拖到 <em>Hopper</em> 中查看汇编：</p>
+<pre class=" language-c"><code class="language-c"> _main<span class="token punctuation">:</span>
+push       rbp
+mov        rbp<span class="token punctuation">,</span> rsp
+sub        rsp<span class="token punctuation">,</span> <span class="token number">0x10</span>
+lea        rdi<span class="token punctuation">,</span> qword <span class="token punctuation">[</span><span class="token number">0x100000f8e</span><span class="token punctuation">]</span> <span class="token punctuation">;</span> <span class="token string">"hello world\\n"</span><span class="token punctuation">,</span> argument <span class="token string">"format"</span> <span class="token keyword">for</span> method imp___stubs__printf
+mov        dword <span class="token punctuation">[</span>rbp<span class="token operator">+</span>var_4<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">0x0</span>
+mov        al<span class="token punctuation">,</span> <span class="token number">0x0</span>
+call       imp___stubs__printf
+lea        rdi<span class="token punctuation">,</span> qword <span class="token punctuation">[</span><span class="token number">0x100000f9b</span><span class="token punctuation">]</span> <span class="token punctuation">;</span> <span class="token string">"hello desgard\\n"</span><span class="token punctuation">,</span> argument <span class="token string">"format"</span> <span class="token keyword">for</span> method imp___stubs__printf
+mov        dword <span class="token punctuation">[</span>rbp<span class="token operator">+</span>var_8<span class="token punctuation">]</span><span class="token punctuation">,</span> eax
+mov        al<span class="token punctuation">,</span> <span class="token number">0x0</span>
+call       imp___stubs__printf
+xor        ecx<span class="token punctuation">,</span> ecx
+mov        dword <span class="token punctuation">[</span>rbp<span class="token operator">+</span>var_C<span class="token punctuation">]</span><span class="token punctuation">,</span> eax
+mov        eax<span class="token punctuation">,</span> ecx
+add        rsp<span class="token punctuation">,</span> <span class="token number">0x10</span>
+pop        rbp
+ret
+</code></pre>
+<p>发现在使用 <code>printf</code> 的时候会触发 <code>call imp__stubs__printf</code> 这条指令。点击进入 <code>imp__stubs__printf</code> 的存储位置查看：</p>
+<pre class=" language-c"><code class="language-c"> imp___stubs__printf<span class="token punctuation">:</span>
+jmp        qword <span class="token punctuation">[</span>_printf_ptr<span class="token punctuation">]</span> <span class="token punctuation">;</span> _printf<span class="token punctuation">,</span> CODE XREF<span class="token operator">=</span>_main<span class="token operator">+</span><span class="token number">24</span><span class="token punctuation">,</span> _main<span class="token operator">+</span><span class="token number">41</span>
+<span class="token punctuation">;</span> <span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span>
+<span class="token punctuation">;</span> 继续跟踪<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+<span class="token number">0x100001010</span>         dq         _printf  <span class="token punctuation">;</span> DATA XREF<span class="token operator">=</span>imp___stubs__printf
+</code></pre>
+<p>在两个 <code>printf</code> 方法前加上断点，使用 <em>lldb</em> 对其进行调试：</p>
+<p><img src="https://diycode.b0.upaiyun.com/photo/2017/bbc1b3779c159c8ed75837385da50b8d.jpg" alt=""></p>
+<p>为什么这里要观测 <code>0x10001010</code> 这个地址？因为 <code>imp___stubs__printf</code> 这个指针指向了它。这说明在 <code>__la_symbol_ptr</code> 表中对其进行了记录。使用 <em>MachOView</em> 对其进行验证：</p>
+<p><img src="https://diycode.b0.upaiyun.com/photo/2017/c712b86deeec548b05e427e33c8d2613.jpg" alt=""></p>
+<p>发现在 <code>__DATA.__la_symbol_ptr</code> 中的记录值与 <em>lldb</em> 中 <code>x 0x10001010</code> 命令输出的记录值均为 <code>01 00 00 0f 84</code>。这个值对应的地址就是 <code>imp___stubs__printf</code> 这个桩位置。</p>
+<pre class=" language-c"><code class="language-c"><span class="token number">0x100000f84</span>         push       <span class="token number">0x0</span>
+<span class="token number">0x100000f89</span>         jmp        <span class="token number">0x100000f74</span>
+</code></pre>
+<pre class=" language-c"><code class="language-c"><span class="token punctuation">;</span> Section __stub_helper
+<span class="token number">0x100000f74</span>         lea        r11<span class="token punctuation">,</span> qword <span class="token punctuation">[</span>dyld_stub_binder_100001000<span class="token operator">+</span><span class="token number">8</span><span class="token punctuation">]</span>   <span class="token punctuation">;</span> CODE XREF<span class="token operator">=</span><span class="token number">0x100000f89</span>
+<span class="token number">0x100000f7b</span>         push       r11
+<span class="token number">0x100000f7d</span>         jmp        qword <span class="token punctuation">[</span>dyld_stub_binder_100001000<span class="token punctuation">]</span>          <span class="token punctuation">;</span> dyld_stub_binder
+<span class="token number">0x100000f83</span>         db         <span class="token number">0x90</span>
+<span class="token number">0x100000f84</span>         push       <span class="token number">0x0</span>
+<span class="token number">0x100000f89</span>         jmp        <span class="token number">0x100000f74</span>
+</code></pre>
+<p>这个位置是不是似曾相识？是的，在<a href="https://xiaozhuanlan.com/topic/6750382941" target="_blank" rel="noopener">Mach-O 文件格式探索</a>一文中的验证试验，已经试验过了 Stub 机制。说道这里，我们在 MachOView 中的 <code>__TEXT.__stubs</code> 这个 Section 对其进行验证：</p>
+<p><img src="https://diycode.b0.upaiyun.com/photo/2017/b7737cdfbca42a2376451fa91ac7f4d8.jpg" alt=""></p>
+<p>与预想中的结果是相同的。这个在 <code>__TEXT.__stub_helper</code> 中解析出的汇编代码和 <em>Hopper</em> 中完全一致。在这里通过 <code>_stub_helper</code> 来调用 <code>dyld_stu_binder</code> 方法计算 <code>printf</code> 函数的真实地址。其具体信息可以看出，<code>jmpq 0x100000f74</code> 就是在 <code>pushq</code> 参数 <code>$0x0</code> （link 过程中的标记值）后跳转到这个 section 的头部，并调用 <code>binder</code> 方法。</p>
+<p><code>binder</code> 方法的作用简单来讲就是计算对应的函数地址进行绑定，之后进而调用对应函数。</p>
+<p>在第二次输出 <code>0x10001010</code> 的值的时候，发现与第一次的值不相同了。变成了 <code>7f ff 76 cc 98 c4</code>。这个地址其实就是 <code>printf</code> 的真实地址。通过 <code>x</code> 命令及方法名的方式进行验证：</p>
+<p><img src="https://diycode.b0.upaiyun.com/photo/2017/5f68343de4d2645ed649f790f6f82b1d.jpg" alt=""></p>
+<p>也就是说 <code>__DATA.__la_symbol_ptr</code> 中指向 <code>printf</code> 地址的值已经发生了改变，并真正的指向了 <code>printf</code> 指令。</p>
+<h3 id="Dynamic-Symbol-Table"><a href="#Dynamic-Symbol-Table" class="headerlink" title="Dynamic Symbol Table"></a>Dynamic Symbol Table</h3><p><strong>Dynamic Symbol Table</strong> 动态符号表是用来加载动态库的时候导出的符号表，该表在 dyld 时期使用，并且在对象被加载的时候映射到进程的地址空间。所以我们可以说 DST 是符号表的子集。对于 ELF 来讲，DST 是有其定义的；但是对于 Mach-O 来说，我们可以理解为 DST 就是 <strong>Symbol Stubs</strong>。DST 和 Mach-O 中的 <em>Indirect Addressing</em> 有很大的关联，这里给出 Apple 对于 <em>Indirect Addressing</em> 的[官方文档] (<a href="https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/MachOTopics/1-Articles/indirect_addressing.html)。" target="_blank" rel="noopener">https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/MachOTopics/1-Articles/indirect_addressing.html)。</a></p>
+<p>这个文档的主要内容是介绍了 <em>Non-lazy symbol references</em>、<em>Lazy symbol reference</em> 的特点和区别。其中 <em>Lazy symbol reference</em> 是指在方法在第一次调用的时候，会根据 dyld 过程时加载的映射地址进行处理，完成绑定操作。</p>
+<p><img src="https://diycode.b0.upaiyun.com/photo/2017/876d51366fc5a941dbb47ef07bb8e7e2.jpg" alt=""></p>
+<p>【通过 MachOView 我们可以查看 <strong>Dynamic Symbol Table</strong> 中的所有 <em>Indirect Symbol</em>】</p>
+<h2 id="理解-fishhook"><a href="#理解-fishhook" class="headerlink" title="理解 fishhook"></a>理解 fishhook</h2><h3 id="明确思路"><a href="#明确思路" class="headerlink" title="明确思路"></a>明确思路</h3><p>根据上面的实战内容，我们理解了 Lazy Binding 这个过程。受此启发，我们是不是可以重新绑定 Mach-O 的 Symbol 从而 hook 一些 C 中的库函数呢？这个思路在 <a href="https://github.com/facebook/fishhook" target="_blank" rel="noopener">fishhook</a> 中已经实现。</p>
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>为了简化分析过程，我们引入了一个例子，之后的分析都会围绕着这个例子来进行。实例代码很简单，就是修改库函数 <code>strlen</code>，让其始终返回 <code>666</code>。</p>
+<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"fishhook.h"</span></span>
+
+<span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token punctuation">(</span><span class="token operator">*</span>original_strlen<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>_s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">new_strlen</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>_s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token number">666</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">struct</span> rebinding strlen_rebinding <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token string">"strlen"</span><span class="token punctuation">,</span> new_strlen<span class="token punctuation">,</span>
+        <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>original_strlen <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token function">rebind_symbols</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">struct</span> rebinding<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">{</span> strlen_rebinding <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span>str <span class="token operator">=</span> <span class="token string">"hellolazy"</span><span class="token punctuation">;</span>
+
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>在 <code>main</code> 方法中，我们构造了一个 <code>rebinding</code> 结构体实例，使用<strong>原方法名</strong>、<strong>新方法的指针</strong>以及<strong>一个二阶指针</strong>（后面我们可以了解到这里存储了 <code>__bss</code> 段中原方法的地址）。</p>
+<pre class=" language-c"><code class="language-c"><span class="token keyword">struct</span> rebinding <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>name<span class="token punctuation">;</span>        <span class="token comment" spellcheck="true">// 原方法名</span>
+    <span class="token keyword">void</span> <span class="token operator">*</span>replacement<span class="token punctuation">;</span>        <span class="token comment" spellcheck="true">// 新方法的代码段首地址</span>
+    <span class="token keyword">void</span> <span class="token operator">*</span><span class="token operator">*</span>replaced<span class="token punctuation">;</span>        <span class="token comment" spellcheck="true">// 旧方法的指针</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>在跟踪代码之前，我先使用 <code>nm</code> 命令对生成的执行文件查看 File 中的符号信息（ <code>-n</code> 参数是根据已知地址进行排序）：</p>
+<pre class=" language-c"><code class="language-c">$ nm <span class="token operator">-</span>n TestObjcProj
+                 U ___memcpy_chk
+                 U __dyld_get_image_header
+                 U __dyld_get_image_vmaddr_slide
+                 U __dyld_image_count
+                 U __dyld_register_func_for_add_image
+                 U _dladdr
+                 U _free
+                 U _malloc
+                 U _printf
+                 U _strcmp
+                 U _strlen
+                 U _strnlen
+                 U dyld_stub_binder
+<span class="token number">0000000100000000</span> T __mh_execute_header
+<span class="token number">0000000100000690</span> t _rebind_symbols_image
+00000001000006f0 t _prepend_rebindings
+00000001000007d0 t _rebind_symbols_for_image
+0000000100000b00 t _rebind_symbols
+0000000100000bc0 t __rebind_symbols_for_image
+0000000100000bf0 t _perform_rebinding_with_section
+<span class="token number">0000000100000e10</span> T _new_strlen
+<span class="token number">0000000100000e20</span> T _main
+<span class="token number">0000000100001090</span> b __rebindings_head
+<span class="token number">0000000100001098</span> b _original_strlen
+</code></pre>
+<p>这里每一行代表一个符号，三列值分别代表<strong>地址</strong>，<strong>符号说明</strong> 和 <strong>符号名</strong>。其中符号说明为以下规则：</p>
+<ul>
+<li>小写代表作用域为 <em>Local</em>，大写代表符号是 <em>Global(external)</em> 的。</li>
+<li><code>A</code> - 符号值是绝对的，在链接过程中不允许对其改变，这个符号常常出现在<strong>中断向量表</strong>中。</li>
+<li><code>B</code> - 符号值出现在内存 <em>BSS</em> 段。例如在某一个文件中定义全局的 <em>static</em> 方法 <code>static void test</code>，则符号 <em>test</em> 的类型为 <code>b</code>，切存储于 <em>BSS</em> 中。其值为该符号在 <em>BSS</em> 中的偏移。一般来说，<em>BSS</em> 分配在 RAM 中。</li>
+<li><code>C</code> - 称为<strong>Common Symbol</strong> <strong>一般符号</strong>，是为初始化的数据段。该符号不包含于普通的 Section 中。只有在链接过程才会进行分配。符号的值为所需要的字节数。</li>
+<li><code>D</code> - 称之为 <strong>Data Symbol</strong>。位于初始化数据段中。一般分配到 <em>Data Section</em> 中。例如全局的 <code>int table[5] = {233, 123, 321, 132, 231};</code>，会分配到初始化数据段中。</li>
+<li><code>T</code> - 该符号位于代码区 <em>TS</em> 中。</li>
+<li><code>U</code> - 说明<strong>当前文件中该符号是未定义的，该符号的定义在别的文件中</strong>。</li>
+</ul>
+<p>我们找到这几个与 <code>strlen</code> 先关的符号，先记录下来：</p>
+<pre class=" language-c"><code class="language-c">                 U _strlen    # 系统库方法，dyld 动态加载，所以未定义
+<span class="token number">0000000100000e10</span> T _new_strlen  # 自定义方法，位于 Text Section
+<span class="token number">0000000100001098</span> b _original_strlen  #
+</code></pre>
+<p>另外我们还需要了解的一些基地址信息。例如：<strong>Lazy Symbol Pointer Table</strong>(<code>__DATA.__la_symbol_ptr</code>)、<strong>Indirect Symbol Table</strong>、<strong>Symbol Table</strong>。这些均能从 <em>MachOView</em> 中获得到。</p>
+<p><img src="https://diycode.b0.upaiyun.com/photo/2017/440fcefd2a587adf65cbbeb027e4d43b.jpg" alt=""></p>
+<p>获取到 <code>__DATA.__la_symbol_ptr</code> 基地址为 <code>0x100001010</code>。</p>
+<p><img src="https://diycode.b0.upaiyun.com/photo/2017/932f41c8d493470a857c0d67d7dadcd5.jpg" alt=""></p>
+<p>这里获取到在 <strong>Indirect Symbols</strong> 中，<code>_strlen</code> 符号的地址为 <code>0x1000025f0</code>。</p>
+<p><img src="https://diycode.b0.upaiyun.com/photo/2017/fc02421bd0b73a013f045495b49955ff.jpg" alt=""></p>
+<p>这里可以获取到在 <strong>Symbol Table</strong> 中对应的符号位置 <code>0x100002560</code>，而且其中还能检索到在 <strong>String Table</strong> 中对应的符号 <code>_strlen</code> 的符号名称。</p>
+<h3 id="调试代码"><a href="#调试代码" class="headerlink" title="调试代码"></a>调试代码</h3><p>在进行 hook 的代码逻辑中，在声明一个 <code>strlen_rebinding</code> 实例之后，需要手动调用方法 <code>rebind_symbols</code> ，其中需要传入一个 <code>rebinding</code> 数组的头地址，以及其 <em>size</em>。下面来看一下 <code>rebind_symbols</code> 方法的实现：</p>
+<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">define</span> __SIZE_TYPE__ long unsigned int</span>
+<span class="token keyword">typedef</span> __SIZE_TYPE__ size_t<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">/**
+ * rebind_symbols
+ * struct rebinding rebindings[] - rebinding 结构体数组
+ * size_t rebindings_nel - 数组长度
+ */</span>
+<span class="token keyword">int</span> <span class="token function">rebind_symbols</span><span class="token punctuation">(</span><span class="token keyword">struct</span> rebinding rebindings<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> size_t rebindings_nel<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 维护一个 rebindings_entry 的结构</span>
+    <span class="token comment" spellcheck="true">// 将 rebinding 的多个实例组织成一个链表</span>
+    <span class="token keyword">int</span> retval <span class="token operator">=</span> <span class="token function">prepend_rebindings</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>_rebindings_head<span class="token punctuation">,</span> rebindings<span class="token punctuation">,</span> rebindings_nel<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 判断是否 malloc 失败，失败会返回 -1</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>retval <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> retval<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// _rebindings_head -> next 是第一次调用的标志符，NULL 则代表第一次调用</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>_rebindings_head<span class="token operator">-></span>next<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 第一次调用，将 _rebind_symbols_for_image 注册为回调</span>
+        <span class="token function">_dyld_register_func_for_add_image</span><span class="token punctuation">(</span>_rebind_symbols_for_image<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 先获取 dyld 镜像数量</span>
+        uint32_t c <span class="token operator">=</span> <span class="token function">_dyld_image_count</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>uint32_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> c<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 根据下标依次进行重绑定过程</span>
+            <span class="token function">_rebind_symbols_for_image</span><span class="token punctuation">(</span><span class="token function">_dyld_get_image_header</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">_dyld_get_image_vmaddr_slide</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// 返回状态值</span>
+    <span class="token keyword">return</span> retval<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>为了<strong>将多次绑定时的多个符号</strong>组织成一个链式结构，<em>fishhook</em> 自定义了一个链表结构来组织这个逻辑，其中每个节点的数据结构如下：</p>
+<pre class=" language-c"><code class="language-c"><span class="token keyword">struct</span> rebindings_entry <span class="token punctuation">{</span>
+    <span class="token keyword">struct</span> rebinding <span class="token operator">*</span>rebindings<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// rebinding 数组实例</span>
+    size_t rebindings_nel<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 元素数量</span>
+    <span class="token keyword">struct</span> rebindings_entry <span class="token operator">*</span>next<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 链表索引</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 全局量，直接拿出表头</span>
+<span class="token keyword">static</span> <span class="token keyword">struct</span> rebindings_entry <span class="token operator">*</span>_rebindings_head<span class="token punctuation">;</span>
+</code></pre>
+<p>在 <code>prepend_rebindings</code> 方法中，<em>fishhook</em> 会维护这个结构：</p>
+<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">/**
+ * prepend_rebindings 用于 rebindings_entry 结构的维护
+ * struct rebindings_entry **rebindings_head - 对应的是 static 的 _rebindings_head
+ * struct rebinding rebindings[] - 传入的方法符号数组
+ * size_t nel - 数组对应的元素数量
+ */</span>
+<span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">prepend_rebindings</span><span class="token punctuation">(</span><span class="token keyword">struct</span> rebindings_entry <span class="token operator">*</span><span class="token operator">*</span>rebindings_head<span class="token punctuation">,</span>
+                              <span class="token keyword">struct</span> rebinding rebindings<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                              size_t nel<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 声明 rebindings_entry 一个指针，并为其分配空间</span>
+    <span class="token keyword">struct</span> rebindings_entry <span class="token operator">*</span>new_entry <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">struct</span> rebindings_entry <span class="token operator">*</span><span class="token punctuation">)</span> <span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> rebindings_entry<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 分配空间失败的容错处理</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>new_entry<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// 为链表中元素的 rebindings 实例分配指定空间</span>
+    new_entry<span class="token operator">-></span>rebindings <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">struct</span> rebinding <span class="token operator">*</span><span class="token punctuation">)</span> <span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> rebinding<span class="token punctuation">)</span> <span class="token operator">*</span> nel<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 分配空间失败的容错处理</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>new_entry<span class="token operator">-></span>rebindings<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">free</span><span class="token punctuation">(</span>new_entry<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// 将 rebindings 数组中 copy 到 new_entry -> rebingdings 成员中</span>
+    <span class="token function">memcpy</span><span class="token punctuation">(</span>new_entry<span class="token operator">-></span>rebindings<span class="token punctuation">,</span> rebindings<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> rebinding<span class="token punctuation">)</span> <span class="token operator">*</span> nel<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 为 new_entry -> rebindings_nel 赋值</span>
+    new_entry<span class="token operator">-></span>rebindings_nel <span class="token operator">=</span> nel<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 为 new_entry -> newx 赋值，维护链表结构</span>
+    new_entry<span class="token operator">-></span>next <span class="token operator">=</span> <span class="token operator">*</span>rebindings_head<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 移动 head 指针，指向表头</span>
+    <span class="token operator">*</span>rebindings_head <span class="token operator">=</span> new_entry<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>之后这一部分的结构将会持续被维护，用图示来说明一下：</p>
+<p><img src="https://diycode.b0.upaiyun.com/photo/2017/7c60b27e4d462ba9d278c0ef118f049b.jpg" alt=""></p>
+<p>在执行完链表的初始化及结构维护的 <code>prepend_rebindings</code> 方法，继续执行。由于我们的 <code>strlen</code> 是 dyld 加载的系统库方法，所以 <code>_rebindings_head -&gt; next</code> 在第一次调用的时候为空，因为没有做过替换符号，所以会调用 <code>_dyld_register_func_for_add_image</code> 来注册 <code>_rebind_symbols_for_image</code> 方法，之后程序每次加载动态库的时候，都会去调用该方法。如果不是第一次替换符号，则<strong>遍历已经加载的动态库</strong>。</p>
+<p>这一块的流程也是 <em>fishhook</em> 代码的精髓部分，逐一来分析这些地方。</p>
+<h4 id="dyld-register-func-for-add-image-是什么？"><a href="#dyld-register-func-for-add-image-是什么？" class="headerlink" title="_dyld_register_func_for_add_image 是什么？"></a><code>_dyld_register_func_for_add_image</code> 是什么？</h4><p>这里笔者查看了 Apple 官方的 <code>dyld.h</code> 头文件，其中对于 <code>_dyld_register_func_for_add_image</code> 有较为详细的说明（<a href="https://opensource.apple.com/source/dyld/dyld-433.5/include/mach-o/dyld.h.auto.html" target="_blank" rel="noopener">dyld.h</a>）：</p>
+<blockquote>
+<p>The following functions allow you to install callbacks which will be called by dyld whenever an image is loaded or unloaded.  During a call to _dyld_register_func_for_add_image() the callback func is called for every existing image.  Later, it is called as each new image is loaded and bound (but initializers not yet run).  The callback registered with _dyld_register_func_for_remove_image() is called after any terminators in an image are run and before the image is un-memory-mapped.</p>
+</blockquote>
+<p><code>_dyld_register_func_for_add_image</code> 这个方法当镜像 <em>Image</em> 被 <em>load</em> 或是 <em>unload</em> 的时候都会由 dyld 主动调用。当该方法被触发时，会为每个镜像触发其回调方法。之后则将其镜像与其回电函数进行绑定（但是未进行初始化）。使用 <code>_dyld_register_func_for_add_image</code> 注册的回调将在镜像中的 terminators 启动后被调用。</p>
+<h4 id="为什么传入的-rebind-symbols-for-image-作为回调函数呢？"><a href="#为什么传入的-rebind-symbols-for-image-作为回调函数呢？" class="headerlink" title="为什么传入的 _rebind_symbols_for_image 作为回调函数呢？"></a>为什么传入的 <code>_rebind_symbols_for_image</code> 作为回调函数呢？</h4><pre class=" language-c"><code class="language-c"><span class="token keyword">extern</span> <span class="token keyword">void</span> <span class="token function">_dyld_register_func_for_add_image</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">*</span>func<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">struct</span> mach_header<span class="token operator">*</span> mh<span class="token punctuation">,</span> intptr_t vmaddr_slide<span class="token punctuation">)</span><span class="token punctuation">)</span>    <span class="token function">__OSX_AVAILABLE_STARTING</span><span class="token punctuation">(</span>__MAC_10_1<span class="token punctuation">,</span> __IPHONE_2_0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">extern</span> <span class="token keyword">void</span> <span class="token function">_dyld_register_func_for_remove_image</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">*</span>func<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">struct</span> mach_header<span class="token operator">*</span> mh<span class="token punctuation">,</span> intptr_t vmaddr_slide<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token function">__OSX_AVAILABLE_STARTING</span><span class="token punctuation">(</span>__MAC_10_1<span class="token punctuation">,</span> __IPHONE_2_0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><code>extern</code> 关键字来告知编译器<strong>当调用方法的时候，请在其他模块中寻找该方法定义</strong>。并且在这两个方法的声明中，所注册方法的参数列表一定是 <code>(const struct mach_header* mh, intptr_t vmaddr_slide)</code>。</p>
+<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">/**
+ * _rebind_symbols_for_image 是 rebind_symbols_for_image 的一个入口方法
+ * 这个入口方法存在的意义是满足 _dyld_register_func_for_add_image 传入回调方法的格式
+ * header - Mach-O 头
+ * slide - intptr_t 持有指针
+ */</span>
+<span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">_rebind_symbols_for_image</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">struct</span> mach_header <span class="token operator">*</span>header<span class="token punctuation">,</span>
+                                      intptr_t slide<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 外层是一个入口函数，意在调用有效的方法 rebind_symbols_for_image</span>
+    <span class="token function">rebind_symbols_for_image</span><span class="token punctuation">(</span>_rebindings_head<span class="token punctuation">,</span> header<span class="token punctuation">,</span> slide<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>看到 <code>_rebind_symbols_for_image</code> 是个入口，我们的问题也就迎刃而解了。添加这个入口方法其实是为了适应回调函数的参数格式，但是真正调用的 <code>rebind_symbols_for_image</code> 所需要的参数不满足其方法的描述。</p>
+<h4 id="intptr-t-是什么类型？"><a href="#intptr-t-是什么类型？" class="headerlink" title="intptr_t 是什么类型？"></a><code>intptr_t</code> 是什么类型？</h4><p>至于 <code>intptr_t</code>，笔者在之前阅读 <a href="https://book.douban.com/subject/25827246/" target="_blank" rel="noopener"><em>Understanding and using C pointers</em></a> 时见过。下面为引用：</p>
+<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">/// /usr/include/stdint.h</span>
+
+<span class="token comment" spellcheck="true">/* Types for `void *' pointers. */</span>
+<span class="token macro property">#<span class="token directive keyword">if</span> __WORDSIZE == 64</span>
+<span class="token macro property"># <span class="token directive keyword">ifndef</span> __intptr_t_defined</span>
+<span class="token keyword">typedef</span> <span class="token keyword">long</span> <span class="token keyword">int</span> intptr_t<span class="token punctuation">;</span>
+<span class="token macro property"># <span class="token directive keyword">define</span> __intptr_t_defined</span>
+<span class="token macro property"># <span class="token directive keyword">endif</span></span>
+<span class="token keyword">typedef</span> <span class="token keyword">unsigned</span> <span class="token keyword">long</span> <span class="token keyword">int</span> uintptr_t<span class="token punctuation">;</span>
+<span class="token macro property">#<span class="token directive keyword">else</span></span>
+<span class="token macro property"># <span class="token directive keyword">ifndef</span> __intptr_t_defined</span>
+<span class="token keyword">typedef</span> <span class="token keyword">int</span> intptr_t<span class="token punctuation">;</span>
+<span class="token macro property"># <span class="token directive keyword">define</span> __intptr_t_defined</span>
+<span class="token macro property"># <span class="token directive keyword">endif</span></span>
+<span class="token keyword">typedef</span> <span class="token keyword">unsigned</span> <span class="token keyword">int</span> uintptr_t<span class="token punctuation">;</span>
+<span class="token macro property">#<span class="token directive keyword">endif</span></span>
+</code></pre>
+<blockquote>
+<p><code>intptr_t</code> 和 <code>uintptr_t</code> 这两种类型用于存储指针地址。从字面上看，<code>intptr_t</code> 像是一个整型指针类型，而且在 <code>stdint.h</code> 的注释中也可以看到 <em>Types for void </em>pointers<em> 的描述，但我们看到实际上 <code>intptr_t</code> 就是一个整数，在 64 位平台中定义为 <code>long int</code>，否则定义为 <code>int</code>。我们知道 C 语言的指针实际上就是变量的地址，在 64 位平台上指针为 8 字节，在 32 位平台上指针为 4 字节，而 <code>intptr_t</code> 刚好是和这个字节数对应，使用它可以安全地进行整数与指针的转换运算，也就是说当需要将指针作为整数运算时，将它转换成 <code>intptr_t</code> 进行运算才是安全的。<em>*使用 <code>int</code> 时也可以使用 <code>intptr_t</code> 来保证平台的通用性，它在不同的平台上编译时长度不同，但都是标准的平台字长</em></em>。</p>
+</blockquote>
+<p>简而言之，这是一个标准字长的存储量，用来代表方法地址的偏移量。</p>
+<h3 id="重绑定寻址-基址准备过程"><a href="#重绑定寻址-基址准备过程" class="headerlink" title="重绑定寻址 - 基址准备过程"></a>重绑定寻址 - 基址准备过程</h3><p><code>rebind_symbols_for_image</code> 方法描述的也就是整个 <em>fishhook</em> 精华所在 - <strong>重绑定符号过程</strong>。继续跟踪代码来理解每一行的意图：</p>
+<pre class=" language-c"><code class="language-c"><span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">rebind_symbols_for_image</span><span class="token punctuation">(</span><span class="token keyword">struct</span> rebindings_entry <span class="token operator">*</span>rebindings<span class="token punctuation">,</span>
+                                     <span class="token keyword">const</span> <span class="token keyword">struct</span> mach_header <span class="token operator">*</span>header<span class="token punctuation">,</span>
+                                     intptr_t slide<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Dl_info info<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">dladdr</span><span class="token punctuation">(</span>header<span class="token punctuation">,</span> <span class="token operator">&amp;</span>info<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// 声明几个查找量:</span>
+    <span class="token comment" spellcheck="true">// linkedit_segment, symtab_command, dysymtab_command</span>
+    segment_command_t <span class="token operator">*</span>cur_seg_cmd<span class="token punctuation">;</span>
+    segment_command_t <span class="token operator">*</span>linkedit_segment <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+    <span class="token keyword">struct</span> symtab_command<span class="token operator">*</span> symtab_cmd <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+    <span class="token keyword">struct</span> dysymtab_command<span class="token operator">*</span> dysymtab_cmd <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 初始化游标</span>
+    <span class="token comment" spellcheck="true">// header = 0x100000000 - 二进制文件基址默认偏移</span>
+    <span class="token comment" spellcheck="true">// sizeof(mach_header_t) = 0x20 - Mach-O Header 部分</span>
+    <span class="token comment" spellcheck="true">// 首先需要跳过 Mach-O Header</span>
+    uintptr_t cur <span class="token operator">=</span> <span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span>header <span class="token operator">+</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>mach_header_t<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 遍历每一个 Load Command，游标每一次偏移每个命令的 Command Size 大小</span>
+    <span class="token comment" spellcheck="true">// header -> ncmds: Load Command 加载命令数量</span>
+    <span class="token comment" spellcheck="true">// cur_seg_cmd -> cmdsize: Load 大小</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>uint i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> header<span class="token operator">-></span>ncmds<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">,</span> cur <span class="token operator">+</span><span class="token operator">=</span> cur_seg_cmd<span class="token operator">-></span>cmdsize<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 取出当前的 Load Command</span>
+        cur_seg_cmd <span class="token operator">=</span> <span class="token punctuation">(</span>segment_command_t <span class="token operator">*</span><span class="token punctuation">)</span>cur<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// Load Command 的类型是 LC_SEGMENT</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>cur_seg_cmd<span class="token operator">-></span>cmd <span class="token operator">==</span> LC_SEGMENT_ARCH_DEPENDENT<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 比对一下 Load Command 的 name 是否为 __LINKEDIT</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">strcmp</span><span class="token punctuation">(</span>cur_seg_cmd<span class="token operator">-></span>segname<span class="token punctuation">,</span> SEG_LINKEDIT<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 检索到 __LINKEDIT</span>
+                linkedit_segment <span class="token operator">=</span> cur_seg_cmd<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 判断当前 Load Command 是否是 LC_SYMTAB 类型</span>
+        <span class="token comment" spellcheck="true">// LC_SEGMENT - 代表当前区域链接器信息</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>cur_seg_cmd<span class="token operator">-></span>cmd <span class="token operator">==</span> LC_SYMTAB<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 检索到 LC_SYMTAB</span>
+            symtab_cmd <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">struct</span> symtab_command<span class="token operator">*</span><span class="token punctuation">)</span>cur_seg_cmd<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 判断当前 Load Command 是否是 LC_DYSYMTAB 类型</span>
+        <span class="token comment" spellcheck="true">// LC_DYSYMTAB - 代表动态链接器信息区域</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>cur_seg_cmd<span class="token operator">-></span>cmd <span class="token operator">==</span> LC_DYSYMTAB<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 检索到 LC_DYSYMTAB</span>
+            dysymtab_cmd <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">struct</span> dysymtab_command<span class="token operator">*</span><span class="token punctuation">)</span>cur_seg_cmd<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// 容错处理</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>symtab_cmd <span class="token operator">||</span> <span class="token operator">!</span>dysymtab_cmd <span class="token operator">||</span> <span class="token operator">!</span>linkedit_segment <span class="token operator">||</span>
+        <span class="token operator">!</span>dysymtab_cmd<span class="token operator">-></span>nindirectsyms<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// slide: ASLR 偏移量</span>
+    <span class="token comment" spellcheck="true">// vmaddr: SEG_LINKEDIT 的虚拟地址</span>
+    <span class="token comment" spellcheck="true">// fileoff: SEG_LINKEDIT 地址偏移</span>
+    <span class="token comment" spellcheck="true">// 式①：base = SEG_LINKEDIT真实地址 - SEG_LINKEDIT地址偏移</span>
+    <span class="token comment" spellcheck="true">// 式②：SEG_LINKEDIT真实地址 = SEG_LINKEDIT虚拟地址 + ASLR偏移量</span>
+    <span class="token comment" spellcheck="true">// 将②代入①：Base = SEG_LINKEDIT虚拟地址 + ASLR偏移量 - SEG_LINKEDIT地址偏移</span>
+    uintptr_t linkedit_base <span class="token operator">=</span> <span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span>slide <span class="token operator">+</span> linkedit_segment<span class="token operator">-></span>vmaddr <span class="token operator">-</span> linkedit_segment<span class="token operator">-></span>fileoff<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 通过 base + symtab 的偏移量 计算 symtab 表的首地址，并获取 nlist_t 结构体实例</span>
+    nlist_t <span class="token operator">*</span>symtab <span class="token operator">=</span> <span class="token punctuation">(</span>nlist_t <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span>linkedit_base <span class="token operator">+</span> symtab_cmd<span class="token operator">-></span>symoff<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 通过 base + stroff 字符表偏移量计算字符表中的首地址，获取字符串表</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span>strtab <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span>linkedit_base <span class="token operator">+</span> symtab_cmd<span class="token operator">-></span>stroff<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 通过 base + indirectsymoff 偏移量来计算动态符号表的首地址</span>
+    uint32_t <span class="token operator">*</span>indirect_symtab <span class="token operator">=</span> <span class="token punctuation">(</span>uint32_t <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span>linkedit_base <span class="token operator">+</span> dysymtab_cmd<span class="token operator">-></span>indirectsymoff<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 归零游标，复用</span>
+    cur <span class="token operator">=</span> <span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span>header <span class="token operator">+</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>mach_header_t<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 再次遍历 Load Commands</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>uint i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> header<span class="token operator">-></span>ncmds<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">,</span> cur <span class="token operator">+</span><span class="token operator">=</span> cur_seg_cmd<span class="token operator">-></span>cmdsize<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        cur_seg_cmd <span class="token operator">=</span> <span class="token punctuation">(</span>segment_command_t <span class="token operator">*</span><span class="token punctuation">)</span>cur<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// Load Command 的类型是 LC_SEGMENT</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>cur_seg_cmd<span class="token operator">-></span>cmd <span class="token operator">==</span> LC_SEGMENT_ARCH_DEPENDENT<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 查询 Segment Name 过滤出 __DATA 或者 __DATA_CONST</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">strcmp</span><span class="token punctuation">(</span>cur_seg_cmd<span class="token operator">-></span>segname<span class="token punctuation">,</span> SEG_DATA<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span>
+                <span class="token function">strcmp</span><span class="token punctuation">(</span>cur_seg_cmd<span class="token operator">-></span>segname<span class="token punctuation">,</span> SEG_DATA_CONST<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment" spellcheck="true">// 遍历 Segment 中的 Section</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span>uint j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> cur_seg_cmd<span class="token operator">-></span>nsects<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 取出 Section</span>
+                section_t <span class="token operator">*</span>sect <span class="token operator">=</span> <span class="token punctuation">(</span>section_t <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span>cur <span class="token operator">+</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>segment_command_t<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> j<span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// flags &amp; SECTION_TYPE 通过 SECTION_TYPE 掩码获取 flags 记录类型的 8 bit</span>
+                <span class="token comment" spellcheck="true">// 如果 section 的类型为 S_LAZY_SYMBOL_POINTERS</span>
+                <span class="token comment" spellcheck="true">// 这个类型代表 lazy symbol 指针 Section</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>sect<span class="token operator">-></span>flags <span class="token operator">&amp;</span> SECTION_TYPE<span class="token punctuation">)</span> <span class="token operator">==</span> S_LAZY_SYMBOL_POINTERS<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">// 进行 rebinding 重写操作</span>
+                    <span class="token function">perform_rebinding_with_section</span><span class="token punctuation">(</span>rebindings<span class="token punctuation">,</span> sect<span class="token punctuation">,</span> slide<span class="token punctuation">,</span> symtab<span class="token punctuation">,</span> strtab<span class="token punctuation">,</span> indirect_symtab<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                <span class="token comment" spellcheck="true">// 这个类型代表 non-lazy symbol 指针 Section</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>sect<span class="token operator">-></span>flags <span class="token operator">&amp;</span> SECTION_TYPE<span class="token punctuation">)</span> <span class="token operator">==</span> S_NON_LAZY_SYMBOL_POINTERS<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token function">perform_rebinding_with_section</span><span class="token punctuation">(</span>rebindings<span class="token punctuation">,</span> sect<span class="token punctuation">,</span> slide<span class="token punctuation">,</span> symtab<span class="token punctuation">,</span> strtab<span class="token punctuation">,</span> indirect_symtab<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><code>rebind_symbols_for_image</code> 方法展示了冲绑定过程中，所有计算地址的流程。浏览过代码之后思考一个问题：<strong>为了完成重绑定的操作，我们需要获取哪些地址信息呢？</strong></p>
+<h4 id="1-获取-Linkedit-Base-Addr"><a href="#1-获取-Linkedit-Base-Addr" class="headerlink" title="1. 获取 Linkedit Base Addr"></a>1. 获取 Linkedit Base Addr</h4><p><em>fishhook</em> 绝大多数重要的地址计算都要使用到或是间接使用到 <strong>Linkedit Base Addr</strong>。要如何理解这个基地址呢？这里我们可以理解成： <strong>Linkedit Segment 在文件中的首地址</strong>。</p>
+<p>为什么 <em>Linkedit Segment</em> 首地址信息十分重要，因为在 <em>Load Command</em> 中，<code>LC_SYMTAB</code> 和 <code>LC_DYSYMTAB</code> 的中所记录的 Offset 都是基于 <strong>__LINKEDIT</strong> 段的。而 <code>LC_SYMTAB</code> 中通过偏移量可以拿到<strong>symtab 符号表首地址</strong>、<strong>strtab 符号名称字符表首地址</strong>以及<strong>indirect_symtab 跳转表首地址</strong>。</p>
+<p>我们拿到 <strong>Indirect Symbols</strong> 的首地址 <code>indirect_symtab</code> 再加上 <code>LC_SEGMENT.__DATA</code> 中任何一个 <em>Section</em> 信息的 <code>reverved1</code> 字段就可以获取到对应的 <em>Indirect Address</em> 信息。在这之后我们可以遍历每一个 <strong>Indirect Symbols</strong>，并以索引方式获取到每一个 <code>nlist</code> 结构的符号，从符号中获取到符号名字符串在字符表中的偏移量，进而继续获取符号名。</p>
+<p><img src="https://diycode.b0.upaiyun.com/photo/2017/29c1401c9017d1672f0cf08a05c95112.jpg" alt=""></p>
+<h4 id="2-二次遍历-Load-Command-的目的"><a href="#2-二次遍历-Load-Command-的目的" class="headerlink" title="2. 二次遍历 Load Command 的目的"></a>2. 二次遍历 Load Command 的目的</h4><p>第一次遍历的目的在第一个疑问中已经解释的很清楚了，遍历目的有三个，为了找出 <code>LC_SEGMENT(__LINKEDIT)</code>、<code>LC_SYMTAB</code> 和 <code>LC_DYSYMTAB</code> 三个 <strong>Load Command</strong>，从而我们可以计算出 <em>Base Address</em>、<em>Symbol Table</em>、<em>Dynamic Symbol</em> 和 <em>String Table</em> 的位置。</p>
+<p>而在第二次遍历中，我们需要获取的是 <code>LC_SEGMENT(__DATA)</code> 中 <code>__nl_symbol_ptr</code> 和 <code>__la_symbol_ptr</code> 这两个 <em>Section</em>。其目的是为了确定 <strong>lazy binding指针表</strong> 和 <strong>non lazy binding指针表</strong> 在 <em>Dynamic Symbol</em> 中对应的位置，方法就是获取到 <em>reserved1</em> 字段。这个在后面我们会做一个验证实现。</p>
+<h3 id="重绑定"><a href="#重绑定" class="headerlink" title="重绑定"></a>重绑定</h3><p>在一切基址准备好之后，开始进行重绑定 <code>perform_rebinding_with_section</code> 方法：</p>
+<pre class=" language-c"><code class="language-c"><span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">perform_rebinding_with_section</span><span class="token punctuation">(</span><span class="token keyword">struct</span> rebindings_entry <span class="token operator">*</span>rebindings<span class="token punctuation">,</span>
+                                           section_t <span class="token operator">*</span>section<span class="token punctuation">,</span>
+                                           intptr_t slide<span class="token punctuation">,</span>
+                                           nlist_t <span class="token operator">*</span>symtab<span class="token punctuation">,</span>
+                                           <span class="token keyword">char</span> <span class="token operator">*</span>strtab<span class="token punctuation">,</span>
+                                           uint32_t <span class="token operator">*</span>indirect_symtab<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 在 Indirect Symbol 表中检索到对应位置</span>
+    uint32_t <span class="token operator">*</span>indirect_symbol_indices <span class="token operator">=</span> indirect_symtab <span class="token operator">+</span> section<span class="token operator">-></span>reserved1<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 获取 _DATA.__nl_symbol_ptr(或__la_symbol_ptr) Section</span>
+    <span class="token comment" spellcheck="true">// 已知其 value 是一个指针类型，整段区域用二阶指针来获取</span>
+    <span class="token keyword">void</span> <span class="token operator">*</span><span class="token operator">*</span>indirect_symbol_bindings <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span>slide <span class="token operator">+</span> section<span class="token operator">-></span>addr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 用 size / 一阶指针来计算个数，遍历整个 Section</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>uint i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> section<span class="token operator">-></span>size <span class="token operator">/</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 通过下标来获取每一个 Indirect Address 的 Value</span>
+        <span class="token comment" spellcheck="true">// 这个 Value 也是外层寻址时需要的下标</span>
+        uint32_t symtab_index <span class="token operator">=</span> indirect_symbol_indices<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>symtab_index <span class="token operator">==</span> INDIRECT_SYMBOL_ABS <span class="token operator">||</span> symtab_index <span class="token operator">==</span> INDIRECT_SYMBOL_LOCAL <span class="token operator">||</span>
+            symtab_index <span class="token operator">==</span> <span class="token punctuation">(</span>INDIRECT_SYMBOL_LOCAL   <span class="token operator">|</span> INDIRECT_SYMBOL_ABS<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">continue</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 获取符号名在字符表中的偏移地址</span>
+        uint32_t strtab_offset <span class="token operator">=</span> symtab<span class="token punctuation">[</span>symtab_index<span class="token punctuation">]</span><span class="token punctuation">.</span>n_un<span class="token punctuation">.</span>n_strx<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 获取符号名</span>
+        <span class="token keyword">char</span> <span class="token operator">*</span>symbol_name <span class="token operator">=</span> strtab <span class="token operator">+</span> strtab_offset<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 过滤掉符号名小于 4 位的符号</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">strnlen</span><span class="token punctuation">(</span>symbol_name<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">continue</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 取出 rebindings 结构体实例数组，开始遍历链表</span>
+        <span class="token keyword">struct</span> rebindings_entry <span class="token operator">*</span>cur <span class="token operator">=</span> rebindings<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>cur<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 对于链表中每一个 rebindings 数组的每一个 rebinding 实例</span>
+            <span class="token comment" spellcheck="true">// 依次在 String Table 匹配符号名</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span>uint j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> cur<span class="token operator">-></span>rebindings_nel<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 符号名与方法名匹配</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">strcmp</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>symbol_name<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> cur<span class="token operator">-></span>rebindings<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">// 如果是第一次对跳转地址进行重写</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>cur<span class="token operator">-></span>rebindings<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>replaced <span class="token operator">!=</span> <span class="token constant">NULL</span> <span class="token operator">&amp;&amp;</span>
+                        indirect_symbol_bindings<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">!=</span> cur<span class="token operator">-></span>rebindings<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>replacement<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        <span class="token comment" spellcheck="true">// 记录原始跳转地址</span>
+                        <span class="token operator">*</span><span class="token punctuation">(</span>cur<span class="token operator">-></span>rebindings<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>replaced<span class="token punctuation">)</span> <span class="token operator">=</span> indirect_symbol_bindings<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    <span class="token comment" spellcheck="true">// 重写跳转地址</span>
+                    indirect_symbol_bindings<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> cur<span class="token operator">-></span>rebindings<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>replacement<span class="token punctuation">;</span>
+                    <span class="token comment" spellcheck="true">// 完成后不再对当前 Indirect Symbol 处理</span>
+                    <span class="token comment" spellcheck="true">// 继续迭代到下一个 Indirect Symbol</span>
+                    <span class="token keyword">goto</span> symbol_loop<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment" spellcheck="true">// 链表遍历</span>
+            cur <span class="token operator">=</span> cur<span class="token operator">-></span>next<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    symbol_loop<span class="token punctuation">:</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>这段方法主要描述了替换 <code>__DATA.__la_symbol_ptr</code> 和 <code>__DATA.__la_symbol_ptr</code> 的 <em>Indirect Pointer</em> 主要过程。从 <code>reserved1</code> 字段获取到 <em>Indirect Symbols</em> 对应的位置。从中我们可以获取到指定符号的偏移量，这个偏移量主要用来在 String Table 中检索出符号名称字符串。之后我们找到 <code>__DATA.__la_symbol_ptr</code> 和 <code>__DATA.__la_symbol_ptr</code> 这两个 Section。这两个表中，都是由 <em>Indirect Pointer</em> 构成的指针数组，但是<strong>其中的元素决定了我们调用的方法应该以哪个代码段的方法来执行</strong>。我们遍历这个指针数组中每一个指针，在每一层遍历中取出其符号名称，与我们的 <code>rebindings</code> 链表中每一个元素进行比对，当名称匹配的时候，重写其指向地址。</p>
+<p><img src="https://diycode.b0.upaiyun.com/photo/2017/fdbc9391bddb6c9989eeb4fcdbabf9ae.jpg" alt=""></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>以上就是 <em>fishhook</em> 的全部源码实现。本文完成了对于 <em>fishhook</em> 全部运行时流程进行了详尽的分析。在 <a href="">验证试验 - 探求 fishhook 原理（二）</a> 中，将会对 <em>fishhook</em> 的全部流程以计算的方式进行模拟实践。并对 <em>fishhook</em> 代码中的一些处理和技巧做出一一剖析。尽请期待。</p>
+<h2 id="引文"><a href="#引文" class="headerlink" title="引文"></a>引文</h2><ul>
+<li><a href="http://linuxtools-rst.readthedocs.io/zh_CN/latest/" target="_blank" rel="noopener">Linux Tools Quick Tutorial</a></li>
+<li><a href="https://amywushu.github.io/2017/02/27/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0-Hook-%E5%8E%9F%E7%90%86%E4%B9%8B-fishhook-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90.html" target="_blank" rel="noopener">Hook 原理之 fishhook 源码解析</a></li>
+</ul>
+<h2 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h2><p>感谢 <a href="http://www.alonemonkey.com/" target="_blank" rel="noopener">AloneMonkey</a> 和 <a href="http://jmpews.github.io/" target="_blank" rel="noopener">jmpews</a> 两位大牛对我的一些帮助。</p>
+
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/avatar.png" alt="Desgard_Duan's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        youremail@email.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="#" target="_blank" title="Email Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2017/12/">十二月 2017<span class="sidebar_archives-count">1</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+
+    <!-- Pages  -->
+    
+
+    <!-- Article Number  -->
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+    <div class="sidebar-divider"></div>
+
+
+<!-- Theme Material -->
+
+    <a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
+        <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+            主题 - Material
+            <span class="sidebar-badge badge-circle">i</span>
+        </div>
+    </a>
+
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+        <a href="https://twitter.com/twitter" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-twitter">
+                <span class="visuallyhidden">Twitter</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Facebook -->
+    
+        <a href="https://www.facebook.com/facebook" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-facebook">
+                <span class="visuallyhidden">Facebook</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Google + -->
+    
+        <a href="https://www.google.com/" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-gplus">
+                <span class="visuallyhidden">Google Plus</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>Guardia · 瓜地
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import File -->
+
+
+    <script>lsloader.load("js/lazyload.min.js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==")</script>
+    <script>lsloader.load("js/js.min.js","/js/js.min.js?oAl/+lvaqTFV31JXTmbrNA==")</script>
+
+
+
+    <script>lsloader.load("js/nprogress.js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==")</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Window Load-->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+</script>
+
+<!-- MathJax Load-->
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Bing Background -->
+
+
+<script>
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.4.0 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>

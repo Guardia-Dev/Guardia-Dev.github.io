@@ -43,7 +43,7 @@
     
     <title>
         
-            分类: Source Probe | 
+            Leetcode Weekly Contest 63 题解 | 
         
         Guardia · 瓜地
     </title>
@@ -54,7 +54,7 @@
 
     <meta name="format-detection" content="telephone=no"/>
     <meta name="description" itemprop="description" content="">
-    <meta name="keywords" content="">
+    <meta name="keywords" content=",Leetcode">
     <meta name="theme-color" content="#0097A7">
 
     <!-- Disable Fucking Bloody Baidu Tranformation -->
@@ -215,7 +215,7 @@
     <!-- WebAPP Icons -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Guardia · 瓜地">
-    <meta name="msapplication-starturl" content="http://m.desgard.com/categories/Source-Probe/">
+    <meta name="msapplication-starturl" content="http://m.desgard.com/2017/12/19/leetcode-weekly-contest-63/">
     <meta name="msapplication-navbutton-color" content="#0097A7">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Guardia · 瓜地">
@@ -230,13 +230,16 @@
     
 
     <!-- The Open Graph protocol -->
-    <meta property="og:url" content="http://m.desgard.com/categories/Source-Probe/">
+    <meta property="og:url" content="http://m.desgard.com/2017/12/19/leetcode-weekly-contest-63/">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="分类: Source Probe | Guardia · 瓜地">
+    <meta property="og:title" content="Leetcode Weekly Contest 63 题解 | Guardia · 瓜地">
     <meta property="og:image" content="/img/favicon.png">
     <meta property="og:description" content="">
-    
+    <meta property="og:article:tag" content="Leetcode"> 
 
+    
+        <meta property="article:published_time" content="Tue Dec 19 2017 00:00:00 GMT+0800">
+        <meta property="article:modified_time" content="Tue Dec 19 2017 09:25:17 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -244,13 +247,43 @@
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://m.desgard.com/categories/Source-Probe/index.html" />
+        <link rel="canonical" href="http://m.desgard.com/2017/12/19/leetcode-weekly-contest-63/index.html" />
     
 
     <!-- Structured-data for SEO -->
     
         
 
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "http://m.desgard.com/2017/12/19/leetcode-weekly-contest-63/index.html",
+    "headline": "Leetcode Weekly Contest 63 题解",
+    "datePublished": "Tue Dec 19 2017 00:00:00 GMT+0800",
+    "dateModified": "Tue Dec 19 2017 09:25:17 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "Desgard_Duan",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/avatar.png"
+        },
+        "description": "I write many code to write less code. 💻"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Guardia · 瓜地",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/favicon.png"
+        }
+    },
+    "keywords": ",Leetcode",
+    "description": "",
+}
+</script>
 
 
     
@@ -293,98 +326,231 @@
                         </button>
                     
 
-                    <!-- Index Module -->
-<div class="material-index mdl-grid">
-    
-    <div class="locate-thumbnail-symbol"></div>
+                    <!-- Post TOC -->
 
-    <!-- Pin on top -->
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+
+    <!-- Left aligned menu below button -->
+    
+    
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#746-Min-Cost-Climbing-Stairs-My-SubmissionsBack-to-Contest"><span class="post-toc-number">1.</span> <span class="post-toc-text"><a href="#746-Min-Cost-Climbing-Stairs-My-SubmissionsBack-to-Contest" class="headerlink" title="746. Min Cost Climbing Stairs My SubmissionsBack to Contest"></a>746. Min Cost Climbing Stairs My SubmissionsBack to Contest</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#大意"><span class="post-toc-number">1.1.</span> <span class="post-toc-text"><a href="#&#x5927;&#x610F;" class="headerlink" title="&#x5927;&#x610F;"></a>&#x5927;&#x610F;</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#思路"><span class="post-toc-number">1.2.</span> <span class="post-toc-text"><a href="#&#x601D;&#x8DEF;" class="headerlink" title="&#x601D;&#x8DEF;"></a>&#x601D;&#x8DEF;</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#748-Shortest-Completing-Word"><span class="post-toc-number">2.</span> <span class="post-toc-text"><a href="#748-Shortest-Completing-Word" class="headerlink" title="748. Shortest Completing Word"></a>748. Shortest Completing Word</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#大意-1"><span class="post-toc-number">2.1.</span> <span class="post-toc-text"><a href="#&#x5927;&#x610F;-1" class="headerlink" title="&#x5927;&#x610F;"></a>&#x5927;&#x610F;</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#思路-1"><span class="post-toc-number">2.2.</span> <span class="post-toc-text"><a href="#&#x601D;&#x8DEF;-1" class="headerlink" title="&#x601D;&#x8DEF;"></a>&#x601D;&#x8DEF;</span></a></li></ol></li></ol>
+    </ul>
     
 
-    <!-- Normal Post -->
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
     
         
             <!-- Random Thumbnail -->
             <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
 
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2017/12/17/fishook-1/">巧用符号表 - 探求 fishhook 原理（一）</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            这是 探求 fishhook 原理 系列的第一篇。主要讲述了 Facebook 开源库 fishhook
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/12/17/fishook-1/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="Desgard_Duan's avatar">
-            </div>
-            <div>
-                <strong>Desgard_Duan</strong>
-                <span>12月 17, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-          
-              <!-- Category -->
-              <span class="post_entry-category">
-                  <a class="post_category-link" href="/categories/Source-Probe/">Source Probe</a>
-              </span>
-            
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-
-    
-
-    
-        <script type="text/ls-javascript" id="thumbnail-script">
-    var randomNum;
-
-    var locatePost = $('.locate-thumbnail-symbol').next();
-    for(var i = 0; i < 10; i++) {
-        randomNum = Math.floor(Math.random() * 19 + 1);
-
-        locatePost.children('.post_thumbnail-random').attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
     $('.post_thumbnail-random').addClass('lazy');
-
-        locatePost = locatePost.next();
-    }
 </script>
 
+        
+    
+            <p class="article-headline-p">
+                Leetcode Weekly Contest 63 题解
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Desgard_Duan</strong>
+        <span>12月 19, 2017</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Leetcode/">Leetcode</a>
+    </ul>
+    
+
+    <!-- Share -->
+    
+        <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Leetcode Weekly Contest 63 题解&url=http://m.desgard.com/2017/12/19/leetcode-weekly-contest-63/index.html&pic=http://m.desgard.com/img/favicon.png&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Leetcode Weekly Contest 63 题解&url=http://m.desgard.com/2017/12/19/leetcode-weekly-contest-63/index.html&via=Desgard_Duan" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+
+    <!-- Share Google+ -->
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
     
 </div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h2 id="746-Min-Cost-Climbing-Stairs-My-SubmissionsBack-to-Contest"><a href="#746-Min-Cost-Climbing-Stairs-My-SubmissionsBack-to-Contest" class="headerlink" title="746. Min Cost Climbing Stairs My SubmissionsBack to Contest"></a>746. Min Cost Climbing Stairs My SubmissionsBack to Contest</h2><h3 id="大意"><a href="#大意" class="headerlink" title="大意"></a>大意</h3><p>给出一个序列，代表每一阶到楼梯需要消耗的体力值。但是在爬楼梯的时候，我们可以一次爬一阶，也可以一次爬两阶，求爬到顶楼时消耗的最小体力</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>很明显的一维 DP，状态转移就是下一次所需要消耗的最小体力总和。转移到 <code>[index - 1]</code> 和 <code>[index-2]</code> 再取一下 <code>min</code> 则可以解得。另外状态转移如下：</p>
+<p>$$J<em>\alpha(x)=\sum</em>{m=0}^\infty\frac{(-1)^m}{m!\Gamma(m+\alpha+1)}{\left({\frac{x}{2}}\right)}^{2m+\alpha}$$</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Solution</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">minCostClimbingStairs</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> cost<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        dp <span class="token operator">=</span> <span class="token punctuation">[</span>cost<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> cost<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> len<span class="token punctuation">(</span>cost<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            dp<span class="token punctuation">.</span>append<span class="token punctuation">(</span>min<span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> cost<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> min<span class="token punctuation">(</span>dp<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<h2 id="748-Shortest-Completing-Word"><a href="#748-Shortest-Completing-Word" class="headerlink" title="748. Shortest Completing Word"></a>748. Shortest Completing Word</h2><h3 id="大意-1"><a href="#大意-1" class="headerlink" title="大意"></a>大意</h3><p>给一个字符串 <code>licensePlate</code>，后面给出多个单词，找出第一个单词其中的字母可以拼成 <code>licensePlate</code> 这样的串，且格式和字母种类都足够。</p>
+<h3 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h3><p>暴力枚举即可。但是 <code>licensePlate</code> 没有规定字符类型，先进行一次剪枝，这里我用的正则来进行剪枝(感觉有点黑科技)。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Solution</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">shortestCompletingWord</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> licensePlate<span class="token punctuation">,</span> words<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        lower_license <span class="token operator">=</span> licensePlate<span class="token punctuation">.</span>lower<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        filter_license <span class="token operator">=</span> collections<span class="token punctuation">.</span>Counter<span class="token punctuation">(</span>re<span class="token punctuation">.</span>sub<span class="token punctuation">(</span><span class="token string">'[^a-zA-Z]'</span><span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">,</span> lower_license<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        ans <span class="token operator">=</span> <span class="token string">'$'</span> <span class="token operator">*</span> <span class="token number">1001</span>
+        <span class="token keyword">for</span> word <span class="token keyword">in</span> words<span class="token punctuation">:</span>
+            counter_word <span class="token operator">=</span> collections<span class="token punctuation">.</span>Counter<span class="token punctuation">(</span>word<span class="token punctuation">)</span>
+            len_max_case <span class="token operator">=</span> <span class="token punctuation">(</span>len<span class="token punctuation">(</span>word<span class="token punctuation">)</span> <span class="token operator">&lt;</span> len<span class="token punctuation">(</span>ans<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            counter_case <span class="token operator">=</span> all<span class="token punctuation">(</span>filter_license<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">&lt;=</span> counter_word<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token keyword">for</span> key <span class="token keyword">in</span> filter_license<span class="token punctuation">)</span>
+            <span class="token keyword">if</span> len_max_case <span class="token operator">and</span> counter_case<span class="token punctuation">:</span>
+                ans <span class="token operator">=</span> word
+        <span class="token keyword">return</span> ans
+</code></pre>
+
+        
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2017/12/17/fishook-1/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
 
 
                     

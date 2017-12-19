@@ -7,7 +7,7 @@ categories:
 date: 2017-12-19 00:00:00
 ---
 
-## 746. Min Cost Climbing Stairs My SubmissionsBack to Contest
+## [746. Min Cost Climbing Stairs My SubmissionsBack to Contest](https://leetcode.com/contest/weekly-contest-63/problems/min-cost-climbing-stairs/)
 
 ### 大意
 
@@ -17,6 +17,10 @@ date: 2017-12-19 00:00:00
 
 很明显的一维 DP，状态转移就是下一次所需要消耗的最小体力总和。转移到 `[index - 1]` 和 `[index-2]` 再取一下 `min` 则可以解得。另外状态转移如下：
 
+
+```
+dp[i] = min(dp[i - 1], dp[i - 2] + cost[i])
+```
 
 
 ```python
@@ -28,7 +32,7 @@ class Solution:
         return min(dp[-1], dp[-2])
 ```
 
-## 748. Shortest Completing Word
+## [748. Shortest Completing Word](https://leetcode.com/contest/weekly-contest-63/problems/shortest-completing-word/)
 
 ### 大意
 
@@ -52,4 +56,5 @@ class Solution:
                 ans = word
         return ans
 ```
+
 

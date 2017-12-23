@@ -58,3 +58,51 @@ class Solution:
 ```
 
 
+# Weekly Test
+
+## [17. Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/)
+
+### 大意
+
+给出一个数字串，将其映射到电话键盘上，返回所有可能打出的字母组合。
+
+### 思路
+
+典型的搜索题，第一反应想多了 DFS，但是考虑到递归的 *StackOverFlow* 问题用 BFS 维护一个队列较为合理。做完之后看题解发现 DFS 也能通过，说明数据量不是很大。
+
+```python
+class Solution:
+    def letterCombinations(self, digits):
+        """
+        :type digits: str
+        :rtype: List[str]
+        """
+        if not digits: 
+            return []
+        
+        dict = {}
+        dict[2] = ['a', 'b', 'c']
+        dict[3] = ['d', 'e', 'f']
+        dict[4] = ['g', 'h', 'i']
+        dict[5] = ['j', 'k', 'l']
+        dict[6] = ['m', 'n', 'o']
+        dict[7] = ['p', 'q', 'r', 's']
+        dict[8] = ['t', 'u', 'v']
+        dict[9] = ['w', 'x', 'y', 'z']
+        
+        ret = []
+
+        for i in range(0, len(digits)):
+            index = int(digits[i])
+            if i is 0:
+                for let in dict[index]:
+                    ret.append(str(let))
+            else:
+                while len(ret[-1]) is i:
+                    item = ret.pop()
+                    for let in dict[index]:
+                        ret.insert(0, item + let)
+        return ret
+```
+
+

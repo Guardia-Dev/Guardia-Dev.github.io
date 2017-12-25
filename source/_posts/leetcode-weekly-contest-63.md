@@ -1,5 +1,5 @@
 ---
-title: Leetcode Weekly Contest 63 题解
+title: Leetcode Weekly Contest 63 题解及训练
 tags: 
     - Leetcode
 categories:
@@ -58,7 +58,7 @@ class Solution:
 ```
 
 
-# Weekly Test
+# Weekly Practice
 
 ## [17. Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/)
 

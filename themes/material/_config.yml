@@ -286,7 +286,7 @@ vendors:
 #   The new src will have the base domain you configured below.
 #   For example
     # MathJax 2.7.0-2.7.1
-    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js"
+    mathjax: "http://cdn.bootcss.com/mathjax/2.7.0/MathJax.js"
 #   materialcdn: https://cdn.jsdelivr.net/npm/hexo-material@1.4.0/source
     materialcdn:
     # jQuery 2.2.0
@@ -299,6 +299,3 @@ vendors:
     prettify:
     # Material Icons 3.0.1
     material_icons:
-
-Front-matter:
-    mathjax: true

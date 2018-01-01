@@ -88,17 +88,18 @@ prism_plugin:
   theme: 'default'
   line_number: false
 
-# hexo-math
-# math:
+# hexo-math:
+#   math:
 #   engine: 'mathjax' # or 'katex'
 #   mathjax:
 #     src: custom_mathjax_source
 #     config:
-#       # MathJax config
+     # MathJax config
 #   katex:
 #     css: custom_css_source
 #     js: custom_js_source # not used
 #     config:
 #       # KaTeX config
-Front-matter:
+
+Font-matter:
     mathjax: true

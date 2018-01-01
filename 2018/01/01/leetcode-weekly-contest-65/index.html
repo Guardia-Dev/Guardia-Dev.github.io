@@ -43,7 +43,7 @@
     
     <title>
         
-            标签: Leetcode | 
+            Leetcode Weekly Contest 65 题解及训练 | 
         
         Guardia · 瓜地
     </title>
@@ -54,7 +54,7 @@
 
     <meta name="format-detection" content="telephone=no"/>
     <meta name="description" itemprop="description" content="">
-    <meta name="keywords" content="">
+    <meta name="keywords" content=",Leetcode">
     <meta name="theme-color" content="#0097A7">
 
     <!-- Disable Fucking Bloody Baidu Tranformation -->
@@ -215,7 +215,7 @@
     <!-- WebAPP Icons -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Guardia · 瓜地">
-    <meta name="msapplication-starturl" content="http://m.desgard.com/tags/Leetcode/">
+    <meta name="msapplication-starturl" content="http://m.desgard.com/2018/01/01/leetcode-weekly-contest-65/">
     <meta name="msapplication-navbutton-color" content="#0097A7">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Guardia · 瓜地">
@@ -230,13 +230,16 @@
     
 
     <!-- The Open Graph protocol -->
-    <meta property="og:url" content="http://m.desgard.com/tags/Leetcode/">
+    <meta property="og:url" content="http://m.desgard.com/2018/01/01/leetcode-weekly-contest-65/">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="标签: Leetcode | Guardia · 瓜地">
+    <meta property="og:title" content="Leetcode Weekly Contest 65 题解及训练 | Guardia · 瓜地">
     <meta property="og:image" content="/img/favicon.png">
     <meta property="og:description" content="">
-    
+    <meta property="og:article:tag" content="Leetcode"> 
 
+    
+        <meta property="article:published_time" content="Mon Jan 01 2018 00:00:00 GMT+0800">
+        <meta property="article:modified_time" content="Mon Jan 01 2018 15:43:20 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -244,13 +247,43 @@
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://m.desgard.com/tags/Leetcode/index.html" />
+        <link rel="canonical" href="http://m.desgard.com/2018/01/01/leetcode-weekly-contest-65/index.html" />
     
 
     <!-- Structured-data for SEO -->
     
         
 
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "http://m.desgard.com/2018/01/01/leetcode-weekly-contest-65/index.html",
+    "headline": "Leetcode Weekly Contest 65 题解及训练",
+    "datePublished": "Mon Jan 01 2018 00:00:00 GMT+0800",
+    "dateModified": "Mon Jan 01 2018 15:43:20 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "Desgard_Duan",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/avatar.png"
+        },
+        "description": "I write many code to write less code. 💻"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Guardia · 瓜地",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/favicon.png"
+        }
+    },
+    "keywords": ",Leetcode",
+    "description": "",
+}
+</script>
 
 
     
@@ -293,220 +326,238 @@
                         </button>
                     
 
-                    <!-- Index Module -->
-<div class="material-index mdl-grid">
-    
-    <div class="locate-thumbnail-symbol"></div>
+                    <!-- Post TOC -->
 
-    <!-- Pin on top -->
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+
+    <!-- Left aligned menu below button -->
+    
+    
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#754-Reach-a-Number"><span class="post-toc-number">1.</span> <span class="post-toc-text"><a href="#754-Reach-a-Number" class="headerlink" title="754. Reach a Number"></a><a href="https://leetcode.com/contest/weekly-contest-65/problems/reach-a-number/" target="_blank" rel="noopener">754. Reach a Number</a></span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#大意"><span class="post-toc-number">1.1.</span> <span class="post-toc-text"><a href="#&#x5927;&#x610F;" class="headerlink" title="&#x5927;&#x610F;"></a>&#x5927;&#x610F;</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#思路"><span class="post-toc-number">1.2.</span> <span class="post-toc-text"><a href="#&#x601D;&#x8DEF;" class="headerlink" title="&#x601D;&#x8DEF;"></a>&#x601D;&#x8DEF;</span></a></li></ol></li></ol>
+    </ul>
     
 
-    <!-- Normal Post -->
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
     
         
             <!-- Random Thumbnail -->
             <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
 
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/01/01/leetcode-weekly-contest-65/">Leetcode Weekly Contest 65 题解及训练</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/01/01/leetcode-weekly-contest-65/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="Desgard_Duan's avatar">
-            </div>
-            <div>
-                <strong>Desgard_Duan</strong>
-                <span>1月 01, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-          
-              <!-- Category -->
-              <span class="post_entry-category">
-                  <a class="post_category-link" href="/categories/Algorithm/">Algorithm</a>
-              </span>
-            
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2017/12/24/leetcode-weekly-contest-64/">Leetcode Weekly Contest 64 题解及训练</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/12/24/leetcode-weekly-contest-64/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="Desgard_Duan's avatar">
-            </div>
-            <div>
-                <strong>Desgard_Duan</strong>
-                <span>12月 24, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-          
-              <!-- Category -->
-              <span class="post_entry-category">
-                  <a class="post_category-link" href="/categories/Algorithm/">Algorithm</a>
-              </span>
-            
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2017/12/19/leetcode-weekly-contest-63/">Leetcode Weekly Contest 63 题解及训练</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/12/19/leetcode-weekly-contest-63/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="Desgard_Duan's avatar">
-            </div>
-            <div>
-                <strong>Desgard_Duan</strong>
-                <span>12月 19, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-          
-              <!-- Category -->
-              <span class="post_entry-category">
-                  <a class="post_category-link" href="/categories/Algorithm/">Algorithm</a>
-              </span>
-            
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-
-    
-
-    
-        <script type="text/ls-javascript" id="thumbnail-script">
-    var randomNum;
-
-    var locatePost = $('.locate-thumbnail-symbol').next();
-    for(var i = 0; i < 10; i++) {
-        randomNum = Math.floor(Math.random() * 19 + 1);
-
-        locatePost.children('.post_thumbnail-random').attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
     $('.post_thumbnail-random').addClass('lazy');
-
-        locatePost = locatePost.next();
-    }
 </script>
 
+        
+    
+            <p class="article-headline-p">
+                Leetcode Weekly Contest 65 题解及训练
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Desgard_Duan</strong>
+        <span>1月 01, 2018</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Leetcode/">Leetcode</a>
+    </ul>
+    
+
+    <!-- Share -->
+    
+        <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Leetcode Weekly Contest 65 题解及训练&url=http://m.desgard.com/2018/01/01/leetcode-weekly-contest-65/index.html&pic=http://m.desgard.com/img/favicon.png&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Leetcode Weekly Contest 65 题解及训练&url=http://m.desgard.com/2018/01/01/leetcode-weekly-contest-65/index.html&via=Desgard_Duan" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+
+    <!-- Share Google+ -->
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
     
 </div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h2 id="754-Reach-a-Number"><a href="#754-Reach-a-Number" class="headerlink" title="754. Reach a Number"></a><a href="https://leetcode.com/contest/weekly-contest-65/problems/reach-a-number/" target="_blank" rel="noopener">754. Reach a Number</a></h2><h3 id="大意"><a href="#大意" class="headerlink" title="大意"></a>大意</h3><p>给出一个 <code>target</code> 这个数称之为目标数字。我们的其实数字是 <code>0</code>，每次可以进行 <code>+n</code> 和 <code>-n</code> 的操作，这个 <code>n</code> 是次数，当我们重复进行这个操作并第一次到达 <code>target</code> 的时候，输出 <code>n</code>。</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>比赛的时候，首先想到的是 <em>BFS</em> 搜，感觉就是一道搜索题。但是 <code>target</code> 的数据量是 <code>[-10^9, 10^9]</code>，高达 <code>2e9</code> 的数量级，搜索肯定是行不通的。再考虑剪枝手段，发现这样的数字正负是对称的，可以减一半的基数，再建立一个 <code>visited</code> 的表来标记已经访问的数字，但是复杂度也是相当的大。</p>
+<p>第二考虑动态规划，但是在推倒转移方程的时候，发现 <code>dp[n]</code> 与 <code>dp[n - 1]</code> 没有直接的数量关系，而且整体的关系网图是一个树形结构，所以在 <code>dp[n]</code> 的时候，要考虑 <code>2^n</code> 种情况，显然<em>状态压缩行不通</em>。（比赛GG）</p>
+<p>赛后在 <em>Discuss</em> 中看到一个数学思路。</p>
+<ul>
+<li>由于问题具有对称性，所以可以先将 <code>target</code> 绝对值，得到 <code>T</code>;</li>
+<li>计算前 n 项和 <code>sum</code> 并让其满足下式：</li>
+</ul>
+<p>$$sum=1+2+3+…+n\geq T$$</p>
+<ul>
+<li>如果 $1+2+3+…+n=T$ 直接返回 <code>n</code></li>
+<li>否则令 $res=sum-T$，如果 <code>res</code> 是偶数，那么肯定存在一个整数 <code>x</code> 保证 $2x=res$在 $[1,n]$ 中。我们让这个 <code>x</code> 取反即可，仍旧返回 <code>n</code></li>
+</ul>
+<p>$$res\ is\ odd\Longrightarrow T=1+2+3+…-x+…+n\ \ (x\subseteq [1,n])$$</p>
+<ul>
+<li>如果 <code>res</code> 是奇数且 <code>n + 1</code> 是奇数，继续向 <code>sum</code> 中添加 <code>n + 1</code>。然后得到 <code>x</code> 同上一操作进行翻转。如果 <code>n + 1</code> 是偶数，那么继续添加 <code>n + 2</code> 在做 <code>x</code> 翻转操作。由于 $sum\geq T$ 且是 <code>sum</code> 的最小值，所以 <code>n</code> 能保证最小值。</li>
+</ul>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> math
+<span class="token keyword">class</span> <span class="token class-name">Solution</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">reachNumber</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> target<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        target_abs <span class="token operator">=</span> abs<span class="token punctuation">(</span>target<span class="token punctuation">)</span>
+        n <span class="token operator">=</span> math<span class="token punctuation">.</span>ceil<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span> <span class="token operator">+</span> math<span class="token punctuation">.</span>sqrt<span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">+</span> <span class="token number">8</span> <span class="token operator">*</span> target_abs<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">)</span>
+        sum <span class="token operator">=</span> n <span class="token operator">*</span> <span class="token punctuation">(</span>n <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span>
+        <span class="token keyword">if</span> sum <span class="token operator">==</span> target<span class="token punctuation">:</span>
+            <span class="token keyword">return</span> n
+        res <span class="token operator">=</span> int<span class="token punctuation">(</span>sum <span class="token operator">-</span> target<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> res <span class="token operator">&amp;</span> <span class="token number">1</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> n
+        <span class="token keyword">else</span> <span class="token punctuation">:</span>
+            <span class="token keyword">return</span> n <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token keyword">if</span> n <span class="token operator">&amp;</span> <span class="token number">1</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token keyword">else</span> <span class="token number">2</span><span class="token punctuation">)</span>
+</code></pre>
+<p></p>
+
+        
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2017/12/24/leetcode-weekly-contest-64/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
 
 
                     
@@ -669,6 +720,14 @@ It will not impact the appearance and can give developers a lot of support :)
                     
 
                     
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
 
                     <!--Footer-->
 <footer class="mdl-mini-footer" id="bottom">
@@ -829,6 +888,26 @@ It will not impact the appearance and can give developers a lot of support :)
 </script>
 
 <!-- MathJax Load-->
+<!--  -->
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+    <script src="http://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
 <!--  -->
 
 <!-- Bing Background -->
